@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,25 +28,124 @@ namespace Yelp_Dataset_Challenge
         /// gets the business path of the .json file for parsing
         /// 
         /// Created : May 18th, 2015 - David Fletcher
+        /// Updated : May 18th, 2015 - David Fletcher
+        ///     - Add support for function call
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void businessPathButton_Click(object sender, RoutedEventArgs e)
         {
-            // create a new OpenFileDialog
+            // open a file dialog to find the file with the appended filter
+            string filePath = DialogBox("JSON file (*.json) | *business.json");
+
+            if (filePath != null)
+            {
+                // append text to the appropriate text box
+                businessPath.Text = filePath;
+            }
+        }
+
+        /// <summary>
+        /// gets the checkin path of the .json file for parsing
+        /// 
+        /// Created : May 18th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void checkinPathButton_Click(object sender, RoutedEventArgs e)
+        {
+            // open a file dialog to find the file with the appended filter
+            string filePath = DialogBox("JSON file (*.json) | *checkin.json");
+
+            if (filePath != null)
+            {
+                // append text to the appropriate text box
+                checkinPath.Text = filePath;
+            }
+        }
+
+        /// <summary>
+        /// gets the review path of the .json file for parsing
+        /// 
+        /// Created : May 18th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void reviewPathButton_Click(object sender, RoutedEventArgs e)
+        {
+            // open a file dialog to find the file with the appended filter
+            string filePath = DialogBox("JSON file (*.json) | *review.json");
+
+            if (filePath != null)
+            {
+                // append text to the appropriate text box
+                reviewPath.Text = filePath;
+            }
+        }
+
+        /// <summary>
+        /// gets the tip path of the .json file for parsing
+        /// 
+        /// Created : May 18th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tipPathButton_Click(object sender, RoutedEventArgs e)
+        {
+            // open a file dialog to find the file with the appended filter
+            string filePath = DialogBox("JSON file (*.json) | *tip.json");
+
+            if (filePath != null)
+            {
+                // append text to the appropriate text box
+                tipPath.Text = filePath;
+            }
+        }
+
+        /// <summary>
+        /// gets the user path of the .json file for parsing
+        /// 
+        /// Created : May 18th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void userPathButton_Click(object sender, RoutedEventArgs e)
+        {
+            // open a file dialog to find the file with the appended filter
+            string filePath = DialogBox("JSON file (*.json) | *user.json");
+
+            if (filePath != null)
+            {
+                // append text to the appropriate text box
+                userPath.Text = filePath;
+            }
+        }
+
+        /// <summary>
+        /// Creates the dialog box with the filter applied by the user
+        /// 
+        /// Created : May 18th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="filter">the filter for the dialog box</param>
+        /// <returns></returns>
+        private string DialogBox(string filter)
+        {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
             // apply the filter to our OpenFileDialog
-            dlg.Filter = "JSON file (*.json) | *business.json";
+            dlg.Filter = filter;
 
             // run the file dialog
             Nullable<bool> result = dlg.ShowDialog();
 
-            // if file is selected
+            // check whether file was selected return value if it was found
             if (result == true)
             {
-                // put file in the businesspath text box for use later
-                businessPath.Text = dlg.FileName;
+                return dlg.FileName;
+            }
+            else
+            {
+                return null;
             }
         }
     }

@@ -5,6 +5,14 @@
     <Grid>
         <TextBox x:Name="businessPath" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="businessPath" VerticalAlignment="Top" Width="476"/>
         <Button x:Name="businessPathButton" Content="..." HorizontalAlignment="Left" Margin="491,10,0,0" VerticalAlignment="Top" Width="16" RenderTransformOrigin="3.043,-4.13" Click="businessPathButton_Click"/>
+        <TextBox x:Name="checkinPath" HorizontalAlignment="Left" Height="23" Margin="10,38,0,0" TextWrapping="Wrap" Text="checkinPath" VerticalAlignment="Top" Width="476"/>
+        <TextBox x:Name="reviewPath" HorizontalAlignment="Left" Height="23" Margin="10,66,0,0" TextWrapping="Wrap" Text="reviewPath" VerticalAlignment="Top" Width="476"/>
+        <TextBox x:Name="tipPath" HorizontalAlignment="Left" Height="23" Margin="10,94,0,0" TextWrapping="Wrap" Text="tipPath" VerticalAlignment="Top" Width="476"/>
+        <TextBox x:Name="userPath" HorizontalAlignment="Left" Height="23" Margin="10,122,0,0" TextWrapping="Wrap" Text="userPath" VerticalAlignment="Top" Width="476"/>
+        <Button x:Name="checkinPathButton" Content="..." HorizontalAlignment="Left" Margin="491,38,0,0" VerticalAlignment="Top" Width="16" RenderTransformOrigin="0.516,-0.011" Click="checkinPathButton_Click"/>
+        <Button x:Name="reviewPathButton" Content="..." HorizontalAlignment="Left" Margin="491,66,0,0" VerticalAlignment="Top" Width="16" Click="reviewPathButton_Click"/>
+        <Button x:Name="tipPathButton" Content="..." HorizontalAlignment="Left" Margin="491,94,0,0" VerticalAlignment="Top" Width="16" Click="tipPathButton_Click"/>
+        <Button x:Name="userPathButton" Content="..." HorizontalAlignment="Left" Margin="491,122,0,0" VerticalAlignment="Top" Width="16" Click="userPathButton_Click"/>
 
     </Grid>
 </Window>
