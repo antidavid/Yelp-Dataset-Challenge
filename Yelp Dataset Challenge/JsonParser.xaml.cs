@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Json;
+using System.Threading;
 
 namespace Yelp_Dataset_Challenge
 {
@@ -147,6 +139,118 @@ namespace Yelp_Dataset_Challenge
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Starting point for conversion of the business json file
+        /// 
+        /// Created : May 22nd, 2015 - David Fletcher
+        /// Updated : May 23rd, 2015 - David Fletcher
+        ///     - Added comments
+        ///     - Added functionality to write the main business.sql file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void convertBusiness_Click(object sender, RoutedEventArgs e)
+        {
+
+            // try converting it to the sql file
+            try
+            {
+                conversionText.Foreground = Brushes.Green;
+                Parser jsonToSQL = new Parser();
+                StreamReader jsonFile = new StreamReader(businessPath.Text);
+                StreamWriter sqlFile = new StreamWriter("business.sql");
+
+                string line;
+                int counter = 0;
+
+                // loop through the json file line by line and convert the line to sql
+                while ((line = jsonFile.ReadLine()) != null)
+                {
+                    JsonObject jsonStr = (JsonObject)JsonObject.Parse(line);
+
+                    string converted = jsonToSQL.ProcessBusiness(jsonStr);
+
+                    sqlFile.WriteLine(converted);
+
+                    // this needs to be repaired, supposed to display each string as it converts but doesn't
+                    conversionText.Text += converted + "\n";
+                    counter++;
+                    if ((counter%10) == 0)
+                    {
+                        Thread.Sleep(100);
+                    }
+                }
+
+            }
+            // if path isn't found display an error message
+            catch
+            {
+                conversionText.Foreground = Brushes.Red;
+                conversionText.Text += "Please assign a path to the business.json file\n";
+            }
+            
+        }
+
+        /// <summary>
+        /// Starting point for conversion of the checkin json file
+        /// 
+        /// Created : May 22nd, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void convertCheckin_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Starting point for conversion of the review json file
+        /// 
+        /// Created : May 22nd, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void convertReview_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Starting point for conversion of the tip json file
+        /// 
+        /// Created : May 22nd, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void convertTip_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Starting point for conversion of the user json file
+        /// 
+        /// Created : May 22nd, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void convertUser_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Starting point for conversion all of the json files
+        /// 
+        /// Created : May 22nd, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void convertAll_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
