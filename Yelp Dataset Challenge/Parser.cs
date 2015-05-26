@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Json;
@@ -14,24 +13,21 @@ namespace Yelp_Dataset_Challenge
         /// cleans non alphanumeric characters from the sql string
         /// 
         /// Created May 23, 2015 - David Fletcher
-        /// Updated May 25, 2015 - David Fletcher
-        ///     - Simplified and cleaned up
         /// </summary>
         /// <param name="inStr"></param>
         /// <returns></returns>
         private string CleanForSQL(string inStr)
         {
-            Regex rgx = new Regex("[^a-zA-Z0-9 ]");
+            String outStr = Encoding.GetEncoding("iso-8859-1").GetString(Encoding.UTF8.GetBytes(inStr));
+            outStr = outStr.Replace("\"", "").Replace("'", " ").Replace(@"\n", " ").Replace(@"\u000a", " ").Replace("\\", " ").Replace("é", "e").Replace("ê", "e").Replace("Ã¼", "A").Replace("Ã", "A").Replace("¤", "").Replace("©", "c").Replace("¶", "");
+            outStr = Regex.Replace(outStr, @"[^\u0020-\u007E]", "?");
 
-            inStr = inStr.Replace(@"\n", " ").Replace(@"\u000a", " ");
-
-            String outStr = rgx.Replace(inStr, "");
-
-            return outStr;
+            //Only get he first maxLength chars. Set maxLength to the max length of your attribute.
+            return outStr.Substring(0, Math.Min(outStr.Length, maxLength));
         }
 
         /// <summary>
-        /// Converts the json business file to a json sql string
+        /// Converts the json business file to a json sql file
         /// 
         /// Created May 23, 2015 - David Fletcher
         /// </summary>
@@ -39,8 +35,7 @@ namespace Yelp_Dataset_Challenge
         /// <returns>sql insert string</returns>
         public string ProcessBusiness(JsonObject jsonStr)
         {
-            // return the insert string
-            return "INSERT IGNORE INTO businessTable (business_id, name, full_address, city, state, latitude, longitude, stars, review_count, open) VALUES ('"
+            return "INSERT INTO businessTable (business_id, name, full_address, city, state, latitude, longitude, stars, review_count, open) VALUES ('"
                    + jsonStr["business_id"].ToString().Replace("\"", "") + "', '"
                    + CleanForSQL(jsonStr["name"].ToString()) + "', '"
                    + CleanForSQL(jsonStr["full_address"].ToString()) + "', '"
@@ -51,48 +46,6 @@ namespace Yelp_Dataset_Challenge
                    + jsonStr["stars"].ToString().Replace("\"", "") + "', '"
                    + jsonStr["review_count"].ToString().Replace("\"", "") + "', '"
                    + jsonStr["open"].ToString().Replace("\"", "") + "');";
-        }
-
-        /// <summary>
-        /// Converts the json business files categories to a json sql string
-        /// 
-        /// Created May 25, 2015 - David Fletcher
-        /// </summary>
-        /// <param name="jsonStr">The line of the of the json file</param>
-        /// <returns>sql insert string</returns>
-        public string ProcessBusinessCategories(JsonObject jsonStr)
-        {
-            StringBuilder insertString = new StringBuilder();
-            JsonArray categories = (JsonArray) jsonStr["categories"];
-
-            foreach (int i in categories)
-            {
-                insertString.Append("INSERT IGNORE INTO categoryTable (business_id, category) VALUES ('");
-                insertString.Append(jsonStr["business_id"].ToString().Replace("\"", "") + "', '");
-                insertString.Append(CleanForSQL(categories[i].ToString()) + ");\n");
-            }
-            return insertString.ToString();
-        }
-
-        /// <summary>
-        /// Converts the json business files neighborhoods to a json sql string
-        /// 
-        /// Created May 25, 2015 - David Fletcher
-        /// </summary>
-        /// <param name="jsonStr">The line of the of the json file</param>
-        /// <returns>sql insert string</returns>
-        public string ProcessBusinessNeighborhoods(JsonObject jsonStr)
-        {
-            StringBuilder insertString = new StringBuilder();
-            JsonArray neighborhoods = (JsonArray)jsonStr["neighborhoods"];
-
-            foreach (int i in neighborhoods)
-            {
-                insertString.Append("INSERT IGNORE INTO categoryTable (business_id, hood_name) VALUES ('");
-                insertString.Append(jsonStr["business_id"].ToString().Replace("\"", "") + "', '");
-                insertString.Append(CleanForSQL(neighborhoods[i].ToString()) + ");\n");
-            }
-            return insertString.ToString();
         }
 
     }

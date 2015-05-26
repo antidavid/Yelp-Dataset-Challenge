@@ -148,8 +148,6 @@ namespace Yelp_Dataset_Challenge
         /// Updated : May 23rd, 2015 - David Fletcher
         ///     - Added comments
         ///     - Added functionality to write the main business.sql file
-        /// Updated : May 25th, 2015 - David Fletcher
-        ///     - Added creation of neighborhood, and category
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -161,11 +159,10 @@ namespace Yelp_Dataset_Challenge
             {
                 conversionText.Foreground = Brushes.Green;
                 Parser jsonToSQL = new Parser();
-
                 StreamReader jsonFile = new StreamReader(businessPath.Text);
-                StreamWriter businessSqlFile = new StreamWriter("business.sql");
+                StreamWriter sqlFile = new StreamWriter("business.sql");
 
-                string line = jsonFile.ReadLine();
+                string line;
                 int counter = 0;
 
                 // loop through the json file line by line and convert the line to sql
@@ -173,16 +170,18 @@ namespace Yelp_Dataset_Challenge
                 {
                     JsonObject jsonStr = (JsonObject)JsonObject.Parse(line);
 
-                    
+                    string converted = jsonToSQL.ProcessBusiness(jsonStr);
 
-                    // main business category
+                    sqlFile.WriteLine(converted);
 
-                    businessSqlFile.WriteLine(jsonToSQL.ProcessBusiness(jsonStr));
-                    businessSqlFile.WriteLine(jsonToSQL.ProcessBusinessNeighborhoods(jsonStr));
-                    businessSqlFile.WriteLine(jsonToSQL.ProcessBusinessCategories(jsonStr));
+                    // this needs to be repaired, supposed to display each string as it converts but doesn't
+                    conversionText.Text += converted + "\n";
+                    counter++;
+                    if ((counter%10) == 0)
+                    {
+                        Thread.Sleep(100);
+                    }
                 }
-                jsonFile.Close();
-                businessSqlFile.Close();
 
             }
             // if path isn't found display an error message
