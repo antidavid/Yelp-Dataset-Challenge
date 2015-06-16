@@ -57,42 +57,52 @@ namespace Yelp_Dataset_Challenge
         /// Converts the json business files categories to a json sql string
         /// 
         /// Created May 25, 2015 - David Fletcher
+        /// Updated June 15, 2015 - David Fletcher
+        ///     Changed from type StringBuilder to string to combat crash error
+        /// Updated June 16, 2015 - David Fletcher
+        ///     StringBuilder data type was not error, foreach loop converted to for loop, no longer breaks
         /// </summary>
         /// <param name="jsonStr">The line of the of the json file</param>
         /// <returns>sql insert string</returns>
         public string ProcessBusinessCategories(JsonObject jsonStr)
         {
-            StringBuilder insertString = new StringBuilder();
+            string retString = null;
             JsonArray categories = (JsonArray) jsonStr["categories"];
 
-            foreach (int i in categories)
+            for (int i = 0; i < categories.Count; i++ )
             {
-                insertString.Append("INSERT IGNORE INTO categoryTable (business_id, category) VALUES ('");
-                insertString.Append(jsonStr["business_id"].ToString().Replace("\"", "") + "', '");
-                insertString.Append(CleanForSQL(categories[i].ToString()) + ");\n");
+                retString += "INSERT IGNORE INTO categoryTable (business_id, category) VALUES ('";
+                retString += jsonStr["business_id"].ToString().Replace("\"", "") + "', '";
+                retString += CleanForSQL(categories[i].ToString()) + ");\n";
             }
-            return insertString.ToString();
+            return retString;
         }
 
         /// <summary>
         /// Converts the json business files neighborhoods to a json sql string
         /// 
         /// Created May 25, 2015 - David Fletcher
+        /// Updated June 15, 2015 - David Fletcher
+        ///     Changed from type StringBuilder to string to combat crash error
+        /// Updated June 16, 2015 - David Fletcher
+        ///     StringBuilder data type was not error, foreach loop converted to for loop, no longer breaks
+        ///     Inserts into neighborhoodTable now not categoryTable
         /// </summary>
         /// <param name="jsonStr">The line of the of the json file</param>
         /// <returns>sql insert string</returns>
         public string ProcessBusinessNeighborhoods(JsonObject jsonStr)
         {
-            StringBuilder insertString = new StringBuilder();
+            string retString = null;
             JsonArray neighborhoods = (JsonArray)jsonStr["neighborhoods"];
 
-            foreach (int i in neighborhoods)
+
+            for (int i = 0; i < neighborhoods.Count; i++ )
             {
-                insertString.Append("INSERT IGNORE INTO categoryTable (business_id, hood_name) VALUES ('");
-                insertString.Append(jsonStr["business_id"].ToString().Replace("\"", "") + "', '");
-                insertString.Append(CleanForSQL(neighborhoods[i].ToString()) + ");\n");
+                retString += "INSERT IGNORE INTO neighborhoodTable (business_id, hood_name) VALUES ('";
+                retString += jsonStr["business_id"].ToString().Replace("\"", "") + "', '";
+                retString += CleanForSQL(neighborhoods[i].ToString()) + ");\n";
             }
-            return insertString.ToString();
+            return retString;
         }
 
     }

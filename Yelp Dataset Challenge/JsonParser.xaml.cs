@@ -150,12 +150,14 @@ namespace Yelp_Dataset_Challenge
         ///     - Added functionality to write the main business.sql file
         /// Updated : May 25th, 2015 - David Fletcher
         ///     - Added creation of neighborhood, and category
+        /// Updated : June 16th, 2015 - David Fletcher 
+        ///     - Repaired crashing bug when parsing neighborhood and categories
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void convertBusiness_Click(object sender, RoutedEventArgs e)
         {
-
+            string line;
             // try converting it to the sql file
             try
             {
@@ -163,26 +165,25 @@ namespace Yelp_Dataset_Challenge
                 Parser jsonToSQL = new Parser();
 
                 StreamReader jsonFile = new StreamReader(businessPath.Text);
+                
                 StreamWriter businessSqlFile = new StreamWriter("business.sql");
-
-                string line = jsonFile.ReadLine();
-                int counter = 0;
-
+                StreamWriter categorySqlFile = new StreamWriter("category.sql");
+                StreamWriter neighborhoodSqlFile = new StreamWriter("neighborhood.sql");
+                string test;
                 // loop through the json file line by line and convert the line to sql
                 while ((line = jsonFile.ReadLine()) != null)
                 {
-                    JsonObject jsonStr = (JsonObject)JsonObject.Parse(line);
-
-                    
+                    JsonObject jsonStr  = (JsonObject)JsonObject.Parse(line);
 
                     // main business category
-
-                    businessSqlFile.WriteLine(jsonToSQL.ProcessBusiness(jsonStr));
-                    businessSqlFile.WriteLine(jsonToSQL.ProcessBusinessNeighborhoods(jsonStr));
-                    businessSqlFile.WriteLine(jsonToSQL.ProcessBusinessCategories(jsonStr));
+                    businessSqlFile.Write(jsonToSQL.ProcessBusiness(jsonStr));
+                    neighborhoodSqlFile.WriteLine(jsonToSQL.ProcessBusinessNeighborhoods(jsonStr));
+                    categorySqlFile.WriteLine(jsonToSQL.ProcessBusinessCategories(jsonStr));
                 }
                 jsonFile.Close();
                 businessSqlFile.Close();
+                categorySqlFile.Close();
+                neighborhoodSqlFile.Close();
 
             }
             // if path isn't found display an error message
