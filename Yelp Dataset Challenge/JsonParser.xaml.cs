@@ -152,6 +152,7 @@ namespace Yelp_Dataset_Challenge
         ///     - Added creation of neighborhood, and category
         /// Updated : June 16th, 2015 - David Fletcher 
         ///     - Repaired crashing bug when parsing neighborhood and categories
+        ///     - Added creation and population of hours
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -164,11 +165,12 @@ namespace Yelp_Dataset_Challenge
                 conversionText.Foreground = Brushes.Green;
                 Parser jsonToSQL = new Parser();
 
-                StreamReader jsonFile = new StreamReader(businessPath.Text);
-                
+                // open streams
+                StreamReader jsonFile = new StreamReader(businessPath.Text);        
                 StreamWriter businessSqlFile = new StreamWriter("business.sql");
                 StreamWriter categorySqlFile = new StreamWriter("category.sql");
                 StreamWriter neighborhoodSqlFile = new StreamWriter("neighborhood.sql");
+                StreamWriter hoursSqlFile = new StreamWriter("hours.sql");
                 string test;
                 // loop through the json file line by line and convert the line to sql
                 while ((line = jsonFile.ReadLine()) != null)
@@ -176,14 +178,18 @@ namespace Yelp_Dataset_Challenge
                     JsonObject jsonStr  = (JsonObject)JsonObject.Parse(line);
 
                     // main business category
-                    businessSqlFile.Write(jsonToSQL.ProcessBusiness(jsonStr));
+                    businessSqlFile.WriteLine(jsonToSQL.ProcessBusiness(jsonStr));
                     neighborhoodSqlFile.WriteLine(jsonToSQL.ProcessBusinessNeighborhoods(jsonStr));
                     categorySqlFile.WriteLine(jsonToSQL.ProcessBusinessCategories(jsonStr));
+                    hoursSqlFile.WriteLine(jsonToSQL.ProcessBusinessHours(jsonStr));
                 }
+
+                // close all streams
                 jsonFile.Close();
                 businessSqlFile.Close();
                 categorySqlFile.Close();
                 neighborhoodSqlFile.Close();
+                hoursSqlFile.Close();
 
             }
             // if path isn't found display an error message
