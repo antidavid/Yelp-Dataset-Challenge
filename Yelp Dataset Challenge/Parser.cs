@@ -131,5 +131,49 @@ namespace Yelp_Dataset_Challenge
             return retString;
         }
 
+        /// <summary>
+        /// Converts the json business files hours to a sql insert string
+        /// for attributes of the form :
+        ///     business_id, attribute_name, attribute_value
+        ///     
+        /// Created June 17th, 2015 - David Fletcher
+        /// Updated June 18th, 2015 - David Fletcher
+        ///     Created case for nested attributes
+        /// </summary>
+        /// <param name="jsonStr">main line of json file</param>
+        /// <returns>sql insert string</returns>
+        public string ProcessBusinessAttributes(JsonObject jsonStr)
+        {
+            string retString = null;
+            JsonObject attributes = (JsonObject)jsonStr["attributes"];
+
+            // iterate through attributes
+            foreach (string attribute in attributes.Keys)
+            {
+                JsonObject nestedAttribute = attributes[attribute] as JsonObject;
+
+                if (nestedAttribute == null)
+                {
+                    retString += "INSERT IGNORE INTO attributeTable (business_id, attribute_name, attribute_value) VALUES ('";
+                    retString += jsonStr["business_id"].ToString().Replace("\"", "") + "', '";
+                    retString += attribute + "', '";
+                    retString += CleanForSQL(attributes[attribute].ToString()) + "');\n";
+                }
+                else
+                {
+                    foreach (string nestedKey in nestedAttribute.Keys)
+                    {
+                        retString += "INSERT IGNORE INTO attributeTable (business_id, attribute_name, attribute_value) VALUES ('";
+                        retString += jsonStr["business_id"].ToString().Replace("\"", "") + "', '";
+                        retString += nestedKey + "', '";
+                        retString += CleanForSQL(nestedAttribute[nestedKey].ToString() + "');\n");
+                    }
+
+                }
+
+            }
+            return retString;
+        }
+
     }
 }

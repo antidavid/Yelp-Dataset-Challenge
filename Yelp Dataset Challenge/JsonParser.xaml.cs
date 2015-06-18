@@ -153,6 +153,8 @@ namespace Yelp_Dataset_Challenge
         /// Updated : June 16th, 2015 - David Fletcher 
         ///     - Repaired crashing bug when parsing neighborhood and categories
         ///     - Added creation and population of hours
+        /// Updated : June 18th, 2015 - David Fletcher
+        ///     - Added creation and population of attributes
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -171,7 +173,7 @@ namespace Yelp_Dataset_Challenge
                 StreamWriter categorySqlFile = new StreamWriter("category.sql");
                 StreamWriter neighborhoodSqlFile = new StreamWriter("neighborhood.sql");
                 StreamWriter hoursSqlFile = new StreamWriter("hours.sql");
-                string test;
+                StreamWriter attributesSqlFile = new StreamWriter("attributes.sql");
                 // loop through the json file line by line and convert the line to sql
                 while ((line = jsonFile.ReadLine()) != null)
                 {
@@ -182,6 +184,7 @@ namespace Yelp_Dataset_Challenge
                     neighborhoodSqlFile.WriteLine(jsonToSQL.ProcessBusinessNeighborhoods(jsonStr));
                     categorySqlFile.WriteLine(jsonToSQL.ProcessBusinessCategories(jsonStr));
                     hoursSqlFile.WriteLine(jsonToSQL.ProcessBusinessHours(jsonStr));
+                    attributesSqlFile.WriteLine(jsonToSQL.ProcessBusinessAttributes(jsonStr));
                 }
 
                 // close all streams
@@ -190,6 +193,7 @@ namespace Yelp_Dataset_Challenge
                 categorySqlFile.Close();
                 neighborhoodSqlFile.Close();
                 hoursSqlFile.Close();
+                attributesSqlFile.Close();
 
             }
             // if path isn't found display an error message
