@@ -214,7 +214,29 @@ namespace Yelp_Dataset_Challenge
         /// <param name="e"></param>
         private void convertCheckin_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                conversionText.Foreground = Brushes.Green;
+                string line;
+                StreamReader jsonFile = new StreamReader(checkinPath.Text);
+                StreamWriter checkinSqlFile = new StreamWriter("checkin.sql");
 
+                Parser jsonToSql = new Parser();
+
+                while ((line = jsonFile.ReadLine()) != null)
+                {
+                    JsonObject jsonStr = (JsonObject)JsonObject.Parse(line);
+
+                    checkinSqlFile.WriteLine(jsonToSql.ProcessCheckin(jsonStr));
+                }
+                jsonFile.Close();
+                checkinSqlFile.Close();
+            }
+            catch
+            {
+                conversionText.Foreground = Brushes.Red;
+                conversionText.Text += "Please assign a path to the checkin.json file\n";
+            }
         }
 
         /// <summary>
@@ -257,12 +279,80 @@ namespace Yelp_Dataset_Challenge
         /// Starting point for conversion all of the json files
         /// 
         /// Created : May 22nd, 2015 - David Fletcher
+        /// Updated : June 20th, 2015 - David Fletcher
+        ///     Added conversion for business.json to appropriate sql files
+        ///     Added conversion for checkin.json to appropriate sql files
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void convertAll_Click(object sender, RoutedEventArgs e)
         {
+            string line;
+            Parser jsonToSQL = new Parser();
+         
+            // convert business to sql
+            try
+            {
+                conversionText.Foreground = Brushes.Green;
+                
 
+                // open streams
+                StreamReader jsonFile = new StreamReader(businessPath.Text);
+                StreamWriter businessSqlFile = new StreamWriter("business.sql");
+                StreamWriter categorySqlFile = new StreamWriter("category.sql");
+                StreamWriter neighborhoodSqlFile = new StreamWriter("neighborhood.sql");
+                StreamWriter hoursSqlFile = new StreamWriter("hours.sql");
+                StreamWriter attributesSqlFile = new StreamWriter("attributes.sql");
+                // loop through the json file line by line and convert the line to sql
+                while ((line = jsonFile.ReadLine()) != null)
+                {
+                    JsonObject jsonStr = (JsonObject)JsonObject.Parse(line);
+
+                    // main business category
+                    businessSqlFile.WriteLine(jsonToSQL.ProcessBusiness(jsonStr));
+                    neighborhoodSqlFile.WriteLine(jsonToSQL.ProcessBusinessNeighborhoods(jsonStr));
+                    categorySqlFile.WriteLine(jsonToSQL.ProcessBusinessCategories(jsonStr));
+                    hoursSqlFile.WriteLine(jsonToSQL.ProcessBusinessHours(jsonStr));
+                    attributesSqlFile.WriteLine(jsonToSQL.ProcessBusinessAttributes(jsonStr));
+                }
+
+                // close all streams
+                jsonFile.Close();
+                businessSqlFile.Close();
+                categorySqlFile.Close();
+                neighborhoodSqlFile.Close();
+                hoursSqlFile.Close();
+                attributesSqlFile.Close();
+
+            }
+            // if path isn't found display an error message
+            catch
+            {
+                conversionText.Foreground = Brushes.Red;
+                conversionText.Text += "business.json not provided\n";
+            }
+
+            // convert checkin to sql
+            try
+            {
+                conversionText.Foreground = Brushes.Green;
+                StreamReader jsonFile = new StreamReader(checkinPath.Text);
+                StreamWriter checkinSqlFile = new StreamWriter("checkin.sql");
+
+                while ((line = jsonFile.ReadLine()) != null)
+                {
+                    JsonObject jsonStr = (JsonObject)JsonObject.Parse(line);
+
+                    checkinSqlFile.WriteLine(jsonToSQL.ProcessCheckin(jsonStr));
+                }
+                jsonFile.Close();
+                checkinSqlFile.Close();
+            }
+            catch
+            {
+                conversionText.Foreground = Brushes.Red;
+                conversionText.Text += "checkin.json not provided\n";
+            }
         }
     }
 }

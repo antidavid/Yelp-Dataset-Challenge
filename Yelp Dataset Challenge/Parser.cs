@@ -32,6 +32,8 @@ namespace Yelp_Dataset_Challenge
 
         /// <summary>
         /// Converts the json business file to a json sql string
+        /// of the form :
+        ///     business_id, name, full_address, city, state, latitude, longitude, stars, review_count, open
         /// 
         /// Created May 23, 2015 - David Fletcher
         /// </summary>
@@ -55,6 +57,8 @@ namespace Yelp_Dataset_Challenge
 
         /// <summary>
         /// Converts the json business files categories to a json sql string
+        /// of the form :
+        ///     business_id, category
         /// 
         /// Created May 25, 2015 - David Fletcher
         /// Updated June 15, 2015 - David Fletcher
@@ -80,6 +84,8 @@ namespace Yelp_Dataset_Challenge
 
         /// <summary>
         /// Converts the json business files neighborhoods to a json sql string
+        /// of the form :
+        ///     business_id, hood_name
         /// 
         /// Created May 25, 2015 - David Fletcher
         /// Updated June 15, 2015 - David Fletcher
@@ -175,5 +181,29 @@ namespace Yelp_Dataset_Challenge
             return retString;
         }
 
+        /// <summary>
+        /// Converts the json checkin file to a sql insert string
+        /// for of the form :
+        ///     business_id, checkin_info, checkin_amount
+        ///     
+        /// Created June 20th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="jsonStr">main line of json file</param>
+        /// <returns>sql insert string</returns>
+        public string ProcessCheckin(JsonObject jsonStr)
+        {
+            string retString = null;
+            JsonObject checkIn = (JsonObject)jsonStr["checkin_info"];
+
+            // iterate through checkins
+            foreach (string check in checkIn.Keys)
+            {
+                retString += "INSERT IGNORE INTO checkinTable (business_id, checkin_info, checkin_amount) VALUES ('";
+                retString += jsonStr["business_id"].ToString().Replace("\"", "") + "', '";
+                retString += check + "', '";
+                retString += CleanForSQL(checkIn[check].ToString()) + "');\n";
+            }
+            return retString;
+        }
     }
 }
