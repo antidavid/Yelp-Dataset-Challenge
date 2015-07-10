@@ -165,7 +165,7 @@ namespace Yelp_Dataset_Challenge
                     retString += attribute + "', '";
                     retString += CleanForSQL(attributes[attribute].ToString()) + "');\n";
                 }
-                else
+                else // iterate through nested attributes
                 {
                     foreach (string nestedKey in nestedAttribute.Keys)
                     {
@@ -203,6 +203,39 @@ namespace Yelp_Dataset_Challenge
                 retString += check + "', '";
                 retString += CleanForSQL(checkIn[check].ToString()) + "');\n";
             }
+            return retString;
+        }
+
+        /// <summary>
+        /// Converts the json review file to a sql insert string
+        /// of the form :
+        ///     business_id, user_id, stars, text, date, votes, review_id
+        ///     
+        /// Created July 9th, 2015 - David Fletcher
+        /// 
+        /// Potential Problems... 
+        ///     string length for text may be too long unsure at the moment
+        /// </summary>
+        /// <param name="jsonStr">Line of json file</param>
+        /// <returns>sql insert string</returns>
+        public string ProcessReview(JsonObject jsonStr)
+        {
+            string retString = null;
+            JsonObject votes = (JsonObject)jsonStr["votes"];
+
+            retString += "INSERT IGNORE INTO reviewTable (business_id, user_id, review_id, stars, text, date, votes_funny, votes_useful, votes_cool) VALUES ('";
+            retString += jsonStr["business_id"].ToString().Replace("\"", "") + "', '";
+            retString += jsonStr["user_id"].ToString().Replace("\"", "") + "', '";
+            retString += jsonStr["review_id"].ToString().Replace("\"", "") + "', '";
+            retString += CleanForSQL(jsonStr["stars"].ToString()) + "', '";
+            retString += jsonStr["text"].ToString() + "', '";
+            retString += CleanForSQL(jsonStr["date"].ToString());
+            foreach (string type in votes.Keys)
+            {
+                retString +=  "', '" + CleanForSQL(votes[type].ToString());
+            }
+            retString += "');\n";
+
             return retString;
         }
     }

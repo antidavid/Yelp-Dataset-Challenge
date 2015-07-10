@@ -243,12 +243,36 @@ namespace Yelp_Dataset_Challenge
         /// Starting point for conversion of the review json file
         /// 
         /// Created : May 22nd, 2015 - David Fletcher
+        /// Updated : July 9th, 2015 - David Fletcher
+        ///     - Implemented Functionality
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void convertReview_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                conversionText.Foreground = Brushes.Green;
+                string line;
+                StreamReader jsonFile = new StreamReader(reviewPath.Text);
+                StreamWriter reviewSqlFile = new StreamWriter("review.sql");
 
+                Parser jsonToSql = new Parser();
+
+                while ((line = jsonFile.ReadLine()) != null)
+                {
+                    JsonObject jsonStr = (JsonObject)JsonObject.Parse(line);
+
+                    reviewSqlFile.WriteLine(jsonToSql.ProcessReview(jsonStr));
+                }
+                jsonFile.Close();
+                reviewSqlFile.Close();
+            }
+            catch
+            {
+                conversionText.Foreground = Brushes.Red;
+                conversionText.Text += "Please assign a path to the review.json file\n";
+            }
         }
 
         /// <summary>
