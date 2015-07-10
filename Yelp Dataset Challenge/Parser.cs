@@ -215,6 +215,7 @@ namespace Yelp_Dataset_Challenge
         /// 
         /// Potential Problems... 
         ///     string length for text may be too long unsure at the moment
+        ///     may need to adjust date
         /// </summary>
         /// <param name="jsonStr">Line of json file</param>
         /// <returns>sql insert string</returns>
@@ -228,13 +229,40 @@ namespace Yelp_Dataset_Challenge
             retString += jsonStr["user_id"].ToString().Replace("\"", "") + "', '";
             retString += jsonStr["review_id"].ToString().Replace("\"", "") + "', '";
             retString += CleanForSQL(jsonStr["stars"].ToString()) + "', '";
-            retString += jsonStr["text"].ToString() + "', '";
+            retString += jsonStr["text"].ToString().Replace("\"", "") + "', '";
             retString += CleanForSQL(jsonStr["date"].ToString());
             foreach (string type in votes.Keys)
             {
                 retString +=  "', '" + CleanForSQL(votes[type].ToString());
             }
             retString += "');\n";
+
+            return retString;
+        }
+
+        /// <summary>
+        /// Converts the json tip file to a sql insert string
+        /// of the form :
+        ///     business_id, user_id, text, date, likes
+        ///     
+        /// Created July 9th, 2015 - David Fletcher
+        /// 
+        /// Potential Problems... 
+        ///     string length for text may be too long unsure at the moment
+        ///     May need to adjust date
+        /// </summary>
+        /// <param name="jsonStr">Line of json file</param>
+        /// <returns>sql insert string</returns>
+        public string ProcessTip(JsonObject jsonStr)
+        {
+            string retString = null;
+
+            retString += "INSERT IGNORE INTO tipTable (business_id, user_id, text, date, likes) VALUES ('";
+            retString += jsonStr["business_id"].ToString().Replace("\"", "") + "', '";
+            retString += jsonStr["user_id"].ToString().Replace("\"", "") + "', '";
+            retString += jsonStr["text"].ToString().Replace("\"", "") + "', '";
+            retString += CleanForSQL(jsonStr["date"].ToString()) + "', '";
+            retString += CleanForSQL(jsonStr["likes"].ToString()) + "');\n";
 
             return retString;
         }

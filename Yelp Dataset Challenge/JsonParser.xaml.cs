@@ -284,7 +284,29 @@ namespace Yelp_Dataset_Challenge
         /// <param name="e"></param>
         private void convertTip_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                conversionText.Foreground = Brushes.Green;
+                string line;
+                StreamReader jsonFile = new StreamReader(tipPath.Text);
+                StreamWriter tipSqlFile = new StreamWriter("tip.sql");
 
+                Parser jsonToSql = new Parser();
+
+                while ((line = jsonFile.ReadLine()) != null)
+                {
+                    JsonObject jsonStr = (JsonObject)JsonObject.Parse(line);
+
+                    tipSqlFile.WriteLine(jsonToSql.ProcessTip(jsonStr));
+                }
+                jsonFile.Close();
+                tipSqlFile.Close();
+            }
+            catch
+            {
+                conversionText.Foreground = Brushes.Red;
+                conversionText.Text += "Please assign a path to the tip.json file\n";
+            }
         }
 
         /// <summary>
