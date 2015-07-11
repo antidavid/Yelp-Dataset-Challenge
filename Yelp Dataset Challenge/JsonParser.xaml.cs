@@ -162,6 +162,7 @@ namespace Yelp_Dataset_Challenge
         {
             string line;
             // try converting it to the sql file
+            bool pass = false;
             try
             {
                 conversionText.Foreground = Brushes.Green;
@@ -195,12 +196,20 @@ namespace Yelp_Dataset_Challenge
                 hoursSqlFile.Close();
                 attributesSqlFile.Close();
 
+                pass = true;
             }
             // if path isn't found display an error message
             catch
             {
+                pass = false;
                 conversionText.Foreground = Brushes.Red;
                 conversionText.Text += "Please assign a path to the business.json file\n";
+            }
+
+            if (pass == true)
+            {
+                conversionText.Foreground = Brushes.Green;
+                conversionText.Text += "business conversion passed";
             }
             
         }
@@ -214,6 +223,7 @@ namespace Yelp_Dataset_Challenge
         /// <param name="e"></param>
         private void convertCheckin_Click(object sender, RoutedEventArgs e)
         {
+            bool pass = false;
             try
             {
                 conversionText.Foreground = Brushes.Green;
@@ -231,11 +241,19 @@ namespace Yelp_Dataset_Challenge
                 }
                 jsonFile.Close();
                 checkinSqlFile.Close();
+                pass = true;
             }
             catch
             {
+                pass = false;
                 conversionText.Foreground = Brushes.Red;
                 conversionText.Text += "Please assign a path to the checkin.json file\n";
+            }
+
+            if (pass == true)
+            {
+                conversionText.Foreground = Brushes.Green;
+                conversionText.Text += "checkin conversion passed";
             }
         }
 
@@ -250,6 +268,8 @@ namespace Yelp_Dataset_Challenge
         /// <param name="e"></param>
         private void convertReview_Click(object sender, RoutedEventArgs e)
         {
+            bool pass = false;
+
             try
             {
                 conversionText.Foreground = Brushes.Green;
@@ -267,11 +287,20 @@ namespace Yelp_Dataset_Challenge
                 }
                 jsonFile.Close();
                 reviewSqlFile.Close();
+
+                pass = true;
             }
             catch
             {
                 conversionText.Foreground = Brushes.Red;
                 conversionText.Text += "Please assign a path to the review.json file\n";
+                pass = false;
+            }
+
+            if (pass == true)
+            {
+                conversionText.Foreground = Brushes.Green;
+                conversionText.Text += "review passed";
             }
         }
 
@@ -286,6 +315,7 @@ namespace Yelp_Dataset_Challenge
         /// <param name="e"></param>
         private void convertTip_Click(object sender, RoutedEventArgs e)
         {
+            bool pass = false;
             try
             {
                 conversionText.Foreground = Brushes.Green;
@@ -303,11 +333,20 @@ namespace Yelp_Dataset_Challenge
                 }
                 jsonFile.Close();
                 tipSqlFile.Close();
+
+                pass = true;
             }
             catch
             {
+                pass = false;
                 conversionText.Foreground = Brushes.Red;
                 conversionText.Text += "Please assign a path to the tip.json file\n";
+            }
+
+            if (pass == true)
+            {
+                conversionText.Foreground = Brushes.Green;
+                conversionText.Text += "tip conversion passed";
             }
         }
 
@@ -322,6 +361,7 @@ namespace Yelp_Dataset_Challenge
         /// <param name="e"></param>
         private void convertUser_Click(object sender, RoutedEventArgs e)
         {
+            bool pass = false;
             try
             {
                 conversionText.Foreground = Brushes.Green;
@@ -348,11 +388,20 @@ namespace Yelp_Dataset_Challenge
                 eliteSqlFile.Close();
                 friendSqlFile.Close();
                 complimentSqlFile.Close();
+
+                pass = true;
             }
             catch
             {
                 conversionText.Foreground = Brushes.Red;
                 conversionText.Text += "Please assign a path to the user.json file\n";
+                pass = false;
+            }
+
+            if (pass == true)
+            {
+                conversionText.Foreground = Brushes.Green;
+                conversionText.Text += "user conversion passed";
             }
         }
 
@@ -363,77 +412,24 @@ namespace Yelp_Dataset_Challenge
         /// Updated : June 20th, 2015 - David Fletcher
         ///     Added conversion for business.json to appropriate sql files
         ///     Added conversion for checkin.json to appropriate sql files
+        /// Updated : July 11th, 2015 - David Fletcher
+        ///     Removed business.json conversion
+        ///     Removed checkin.json conversion
+        ///     Added function call to convertBusiness_Click
+        ///     Added function call to convertCheckin_Click
+        ///     Added function call to convertUser_Click
+        ///     Added function call to convertTip_Click
+        ///     Added function call to convertReview_Click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void convertAll_Click(object sender, RoutedEventArgs e)
         {
-            string line;
-            Parser jsonToSQL = new Parser();
-         
-            // convert business to sql
-            try
-            {
-                conversionText.Foreground = Brushes.Green;
-                
-
-                // open streams
-                StreamReader jsonFile = new StreamReader(businessPath.Text);
-                StreamWriter businessSqlFile = new StreamWriter("business.sql");
-                StreamWriter categorySqlFile = new StreamWriter("category.sql");
-                StreamWriter neighborhoodSqlFile = new StreamWriter("neighborhood.sql");
-                StreamWriter hoursSqlFile = new StreamWriter("hours.sql");
-                StreamWriter attributesSqlFile = new StreamWriter("attributes.sql");
-                // loop through the json file line by line and convert the line to sql
-                while ((line = jsonFile.ReadLine()) != null)
-                {
-                    JsonObject jsonStr = (JsonObject)JsonObject.Parse(line);
-
-                    // main business category
-                    businessSqlFile.WriteLine(jsonToSQL.ProcessBusiness(jsonStr));
-                    neighborhoodSqlFile.WriteLine(jsonToSQL.ProcessBusinessNeighborhoods(jsonStr));
-                    categorySqlFile.WriteLine(jsonToSQL.ProcessBusinessCategories(jsonStr));
-                    hoursSqlFile.WriteLine(jsonToSQL.ProcessBusinessHours(jsonStr));
-                    attributesSqlFile.WriteLine(jsonToSQL.ProcessBusinessAttributes(jsonStr));
-                }
-
-                // close all streams
-                jsonFile.Close();
-                businessSqlFile.Close();
-                categorySqlFile.Close();
-                neighborhoodSqlFile.Close();
-                hoursSqlFile.Close();
-                attributesSqlFile.Close();
-
-            }
-            // if path isn't found display an error message
-            catch
-            {
-                conversionText.Foreground = Brushes.Red;
-                conversionText.Text += "business.json not provided\n";
-            }
-
-            // convert checkin to sql
-            try
-            {
-                conversionText.Foreground = Brushes.Green;
-                StreamReader jsonFile = new StreamReader(checkinPath.Text);
-                StreamWriter checkinSqlFile = new StreamWriter("checkin.sql");
-
-                while ((line = jsonFile.ReadLine()) != null)
-                {
-                    JsonObject jsonStr = (JsonObject)JsonObject.Parse(line);
-
-                    checkinSqlFile.WriteLine(jsonToSQL.ProcessCheckin(jsonStr));
-                }
-                jsonFile.Close();
-                checkinSqlFile.Close();
-            }
-            catch
-            {
-                conversionText.Foreground = Brushes.Red;
-                conversionText.Text += "checkin.json not provided\n";
-            }
+            convertBusiness_Click(null, null);
+            convertCheckin_Click(null, null);
+            convertUser_Click(null, null);
+            convertTip_Click(null, null);
+            convertReview_Click(null, null);
         }
     }
 }
