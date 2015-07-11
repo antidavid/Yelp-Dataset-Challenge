@@ -266,5 +266,110 @@ namespace Yelp_Dataset_Challenge
 
             return retString;
         }
+
+        /// <summary>
+        /// Converts the json users file to a sql insert string
+        /// of the form :
+        ///     user_id, name, review_count, average_stars, votes_funny, votes_useful, votes_cool, yelping_since, fans
+        ///     
+        /// Created July 10th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="jsonStr">Line of json file</param>
+        /// <returns>sql insert string</returns>
+        public string ProcessUsers(JsonObject jsonStr)
+        {
+            string retString = null;
+            JsonObject votes = (JsonObject)jsonStr["votes"];
+
+            retString += "INSERT IGNORE INTO usersTable (user_id, name, review_count, average_stars, votes_funny, votes_useful, votes_cool, yelping_since, fans) VALUES ('";
+            retString += jsonStr["user_id"].ToString().Replace("\"", "") + "', '";
+            retString += CleanForSQL(jsonStr["name"].ToString()) + "', '";
+            retString += jsonStr["review_count"].ToString() + "', '";
+            retString += jsonStr["average_stars"].ToString();
+            foreach (string type in votes.Keys)
+            {
+                retString += "', '" + CleanForSQL(votes[type].ToString());
+            }
+            retString += "', '" + jsonStr["yelping_since"].ToString() + "', '";
+            retString += jsonStr["fans"].ToString() + "');";
+
+            return retString;
+        }
+
+        /// <summary>
+        /// Converts the json users file to a sql insert string
+        /// of the form :
+        ///     user_id, year
+        ///     
+        /// Created July 10th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="jsonStr">Line of json file</param>
+        /// <returns>sql insert string</returns>
+        public string ProcessUsersElite(JsonObject jsonStr)
+        {
+            string retString = null;
+            JsonArray elite = (JsonArray)jsonStr["elite"];
+
+            for (int i = 0; i < elite.Count; i++)
+            {
+                retString += "INSERT IGNORE INTO eliteTable(user_id, year) VALUES ('";
+                retString += jsonStr["user_id"].ToString().Replace("\"", "") + "', '";
+                retString += elite[i].ToString() + "');\n";
+            }
+
+            return retString;
+        }
+
+        /// <summary>
+        /// Converts the json users file to a sql insert string
+        /// of the form :
+        ///     user_id, friend_id
+        ///     
+        /// Created July 10th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="jsonStr">Line of json file</param>
+        /// <returns>sql insert string</returns>
+        public string ProcessUsersFriends(JsonObject jsonStr)
+        {
+            string retString = null;
+            JsonArray friends = (JsonArray)jsonStr["friends"];
+
+            for (int i = 0; i < friends.Count; i++)
+            {
+                retString += "INSERT IGNORE INTO friendsTable(user_id, friend_id) VALUES ('";
+                retString += jsonStr["user_id"].ToString().Replace("\"", "") + "', '";
+                retString += friends[i].ToString() + "');\n";
+            }
+
+            return retString;
+        }
+
+        /// <summary>
+        /// Converts the json users file to a sql insert string
+        /// of the form :
+        ///     user_id, compliment, compliment_count
+        ///     
+        /// Created July 10th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="jsonStr">Line of json file</param>
+        /// <returns>sql insert string</returns>
+        public string ProcessUsersCompliments(JsonObject jsonStr)
+        {
+            string retString = null;
+            JsonObject compliments = (JsonObject)jsonStr["compliments"];
+
+            // iterate through attributes
+            foreach (string compliment in compliments.Keys)
+            {
+
+                retString += "INSERT IGNORE INTO complimentTable (user_id, compliment, compliment_count) VALUES ('";
+                retString += jsonStr["user_id"].ToString().Replace("\"", "") + "', '";
+                retString += compliment + "', '";
+                retString += CleanForSQL(compliments[compliment].ToString()) + "');\n";
+
+
+            }
+            return retString;
+        }
     }
 }

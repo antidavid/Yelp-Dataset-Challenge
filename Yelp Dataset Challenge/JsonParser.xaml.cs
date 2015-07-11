@@ -279,6 +279,8 @@ namespace Yelp_Dataset_Challenge
         /// Starting point for conversion of the tip json file
         /// 
         /// Created : May 22nd, 2015 - David Fletcher
+        /// Updated : July 9th, 2015 - David Fletcher
+        ///     - Implemented Functionality
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -313,12 +315,45 @@ namespace Yelp_Dataset_Challenge
         /// Starting point for conversion of the user json file
         /// 
         /// Created : May 22nd, 2015 - David Fletcher
+        /// Updated : July 10th, 2015 - David Fletcher
+        ///     - Implemented Functionality
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void convertUser_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                conversionText.Foreground = Brushes.Green;
+                string line;
+                StreamReader jsonFile = new StreamReader(userPath.Text);
+                StreamWriter userSqlFile = new StreamWriter("users.sql");
+                StreamWriter eliteSqlFile = new StreamWriter("elite.sql");
+                StreamWriter friendSqlFile = new StreamWriter("friend.sql");
+                StreamWriter complimentSqlFile = new StreamWriter("complimnet.sql");
 
+                Parser jsonToSql = new Parser();
+
+                while ((line = jsonFile.ReadLine()) != null)
+                {
+                    JsonObject jsonStr = (JsonObject)JsonObject.Parse(line);
+
+                    userSqlFile.WriteLine(jsonToSql.ProcessUsers(jsonStr));
+                    eliteSqlFile.WriteLine(jsonToSql.ProcessUsersElite(jsonStr));
+                    friendSqlFile.WriteLine(jsonToSql.ProcessUsersFriends(jsonStr));
+                    complimentSqlFile.WriteLine(jsonToSql.ProcessUsersCompliments(jsonStr));
+                }
+                jsonFile.Close();
+                userSqlFile.Close();
+                eliteSqlFile.Close();
+                friendSqlFile.Close();
+                complimentSqlFile.Close();
+            }
+            catch
+            {
+                conversionText.Foreground = Brushes.Red;
+                conversionText.Text += "Please assign a path to the user.json file\n";
+            }
         }
 
         /// <summary>
