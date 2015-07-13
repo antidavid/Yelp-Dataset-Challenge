@@ -20,6 +20,11 @@ namespace Yelp_Dataset_Challenge
         string uid = "user";
         string pass = "pass";
 
+        /// <summary>
+        /// entrance to mysqlconnector, attempts to connect to DB as a user
+        /// 
+        /// Created July 11th, 2015 : David Fletcher
+        /// </summary>
         public MySQLConnect()
         {
             try
@@ -32,6 +37,11 @@ namespace Yelp_Dataset_Challenge
             }
         }
 
+        /// <summary>
+        /// Initialize the database
+        /// 
+        /// Created July 11th, 2015 : David Fletcher
+        /// </summary>
         private void Initialize()
         {
             // build the connection string
@@ -39,6 +49,12 @@ namespace Yelp_Dataset_Challenge
             connection = new MySqlConnection(conString);
         }
 
+        /// <summary>
+        /// open the connection
+        /// 
+        /// Created July 11th, 2015 : David Fletcher
+        /// </summary>
+        /// <returns>boolean of open : true or not open : false</returns>
         private bool openConnection()
         {
             try
@@ -53,6 +69,12 @@ namespace Yelp_Dataset_Challenge
             return false;
         }
 
+        /// <summary>
+        /// close the connection
+        /// 
+        /// Created July 11th, 2015 : David Fletcher
+        /// </summary>
+        /// <returns>boolean of close : true or not close : false</returns>
         private bool closeConnection()
         {
             try
@@ -67,6 +89,14 @@ namespace Yelp_Dataset_Challenge
             return false;
         }
 
+        /// <summary>
+        /// A sql select statement that runs a query string on the database
+        /// and returns a list of strings as the result
+        /// 
+        /// Created July 11th, 2015 : David Fletcher
+        /// </summary>
+        /// <param name="queryStr">the query string</param>
+        /// <returns>list of strings of the query</returns>
         public List<string> sqlSelect (string queryStr)
         {
             List<string> qResult = new List<string>();
@@ -92,6 +122,12 @@ namespace Yelp_Dataset_Challenge
             return qResult;
         }
 
+        /// <summary>
+        /// Executes non query strings on the database
+        /// 
+        /// Created July 11th, 2015 : David Fletcher
+        /// </summary>
+        /// <param name="queryStr">query string</param>
         public void sqlUpdate (string queryStr)
         {
             if (this.openConnection() == true)
@@ -111,6 +147,14 @@ namespace Yelp_Dataset_Challenge
             }
         }
 
+        /// <summary>
+        /// executes a query string that fills a datatable for 
+        /// queries that return more than one item per entry
+        /// 
+        /// Created July 11th, 2015 : David Fletcher
+        /// </summary>
+        /// <param name="queryStr">input query string</param>
+        /// <returns>datatable containing query results</returns>
         public DataTable dTable (string queryStr)
         {
             DataTable dt = new DataTable();
