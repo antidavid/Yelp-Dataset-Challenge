@@ -1,37 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
+using System.Data.SqlClient;
 using System.Data;
-using MySql.Data.MySqlClient;
 
 namespace Yelp_Dataset_Challenge
 {
-    class MySQLConnect
+    class SQLConnect
     {
         // used to open the connection to the DB
-        private MySqlConnection connection;
+        private SqlConnection connection;
 
         // database credentials
         string serv = "localhost";
-        string db = "yelpdata";
-        string uid = "user";
-        string pass = "pass";
+        string db = "yelp";
+        string intSecurity = "true";
 
         /// <summary>
-        /// entrance to mysqlconnector, attempts to connect to DB as a user
+        /// entrance to sqlconnector, attempts to connect to DB as a user
         /// 
         /// Created July 11th, 2015 : David Fletcher
+        /// Updated July 22nd, 2015 : David Fletcher
+        ///     - Converted to SQL
         /// </summary>
-        public MySQLConnect()
+        public SQLConnect()
         {
             try
             {
                 Initialize();
             }
-            catch (MySqlException Exception)
+            catch (SqlException Exception)
             {
 
             }
@@ -41,20 +38,24 @@ namespace Yelp_Dataset_Challenge
         /// Initialize the database
         /// 
         /// Created July 11th, 2015 : David Fletcher
+        /// Updated July 22nd, 2015 : David Fletcher
+        ///     - Converted to SQL
         /// </summary>
         private void Initialize()
         {
             // build the connection string
-            string conString = "SERVER=" + serv + ";DATABASE=" + db + ";UID=" + uid + ";PASSWORD=" + pass + ";";
-            connection = new MySqlConnection(conString);
+            string conString = "SERVER=" + serv + ";DATABASE=" + db + ";INTEGRATED SECURITY = " + intSecurity + ";";
+            connection = new SqlConnection(conString);
         }
 
         /// <summary>
-        /// open the connection
+        /// close the connection
         /// 
         /// Created July 11th, 2015 : David Fletcher
+        /// Updated July 22nd, 2015 : David Fletcher
+        ///     - Converted to SQL
         /// </summary>
-        /// <returns>boolean of open : true or not open : false</returns>
+        /// <returns>boolean of close : true or not close : false</returns>
         private bool openConnection()
         {
             try
@@ -62,27 +63,7 @@ namespace Yelp_Dataset_Challenge
                 connection.Open();
                 return true;
             }
-            catch (MySqlException ex)
-            {
-
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// close the connection
-        /// 
-        /// Created July 11th, 2015 : David Fletcher
-        /// </summary>
-        /// <returns>boolean of close : true or not close : false</returns>
-        private bool closeConnection()
-        {
-            try
-            {
-                connection.Close();
-                return true;
-            }
-            catch (MySqlException ex)
+            catch (SqlException ex)
             {
 
             }
@@ -94,17 +75,43 @@ namespace Yelp_Dataset_Challenge
         /// and returns a list of strings as the result
         /// 
         /// Created July 11th, 2015 : David Fletcher
+        /// Updated July 22nd, 2015 : David Fletcher
+        ///     - Converted to SQL
         /// </summary>
         /// <param name="queryStr">the query string</param>
         /// <returns>list of strings of the query</returns>
-        public List<string> sqlSelect (string queryStr)
+        private bool closeConnection()
+        {
+            try
+            {
+                connection.Close();
+                return true;
+            }
+            catch (SqlException ex)
+            {
+
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// A sql select statement that runs a query string on the database
+        /// and returns a list of strings as the result
+        /// 
+        /// Created July 11th, 2015 : David Fletcher
+        /// Updated July 22nd, 2015 : David Fletcher
+        ///     - Converted to SQL
+        /// </summary>
+        /// <param name="queryStr">the query string</param>
+        /// <returns>list of strings of the query</returns>
+        public List<string> sqlSelect(string queryStr)
         {
             List<string> qResult = new List<string>();
 
             if (this.openConnection() == true)
             {
-                MySqlCommand cmd = new MySqlCommand(queryStr, connection);
-                MySqlDataReader dRead = cmd.ExecuteReader();
+                SqlCommand cmd = new SqlCommand(queryStr, connection);
+                SqlDataReader dRead = cmd.ExecuteReader();
 
                 while (dRead.Read())
                 {
@@ -126,17 +133,19 @@ namespace Yelp_Dataset_Challenge
         /// Executes non query strings on the database
         /// 
         /// Created July 11th, 2015 : David Fletcher
+        /// Updated July 22nd, 2015 : David Fletcher
+        ///     - Converted to SQL
         /// </summary>
         /// <param name="queryStr">query string</param>
-        public void sqlUpdate (string queryStr)
+        public void sqlUpdate(string queryStr)
         {
             if (this.openConnection() == true)
             {
-                MySqlCommand cmd = new MySqlCommand(queryStr, connection);
+                SqlCommand cmd = new SqlCommand(queryStr, connection);
                 try
                 {
                     cmd.ExecuteNonQuery();
-                    
+
                 }
                 catch (Exception Ex) { }
                 finally
@@ -152,17 +161,19 @@ namespace Yelp_Dataset_Challenge
         /// queries that return more than one item per entry
         /// 
         /// Created July 11th, 2015 : David Fletcher
+        /// Updated July 22nd, 2015 : David Fletcher
+        ///     - Converted to SQL
         /// </summary>
         /// <param name="queryStr">input query string</param>
         /// <returns>datatable containing query results</returns>
-        public DataTable dTable (string queryStr)
+        public DataTable dTable(string queryStr)
         {
             DataTable dt = new DataTable();
 
             if (this.openConnection() == true)
             {
-                MySqlCommand cmd = new MySqlCommand(queryStr, connection);
-                MySqlDataAdapter sda = new MySqlDataAdapter(cmd);
+                SqlCommand cmd = new SqlCommand(queryStr, connection);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 sda.Fill(dt);
                 this.closeConnection();
             }
