@@ -1,25 +1,31 @@
 ﻿<Window x:Class="Yelp_Dataset_Challenge.JsonParser"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="JsonParser" Height="392.632" Width="578.571">
+        Title="JsonParser" Height="409.632" Width="578.571">
     <Grid>
-        <TextBox x:Name="businessPath" HorizontalAlignment="Left" Height="23" Margin="10,190,0,0" TextWrapping="Wrap" Text="businessPath" VerticalAlignment="Top" Width="476"/>
-        <Button x:Name="businessPathButton" Content="..." HorizontalAlignment="Left" Margin="491,190,0,0" VerticalAlignment="Top" Width="16" RenderTransformOrigin="3.043,-4.13" Click="businessPathButton_Click"/>
-        <TextBox x:Name="checkinPath" HorizontalAlignment="Left" Height="23" Margin="10,218,0,0" TextWrapping="Wrap" Text="checkinPath" VerticalAlignment="Top" Width="476"/>
-        <TextBox x:Name="reviewPath" HorizontalAlignment="Left" Height="23" Margin="10,246,0,0" TextWrapping="Wrap" Text="reviewPath" VerticalAlignment="Top" Width="476"/>
-        <TextBox x:Name="tipPath" HorizontalAlignment="Left" Height="23" Margin="10,274,0,0" TextWrapping="Wrap" Text="tipPath" VerticalAlignment="Top" Width="476"/>
-        <TextBox x:Name="userPath" HorizontalAlignment="Left" Height="23" Margin="10,302,0,0" TextWrapping="Wrap" Text="userPath" VerticalAlignment="Top" Width="476"/>
-        <Button x:Name="checkinPathButton" Content="..." HorizontalAlignment="Left" Margin="491,218,0,0" VerticalAlignment="Top" Width="16" RenderTransformOrigin="0.516,-0.011" Click="checkinPathButton_Click"/>
-        <Button x:Name="reviewPathButton" Content="..." HorizontalAlignment="Left" Margin="491,246,0,0" VerticalAlignment="Top" Width="16" Click="reviewPathButton_Click"/>
-        <Button x:Name="tipPathButton" Content="..." HorizontalAlignment="Left" Margin="491,274,0,0" VerticalAlignment="Top" Width="16" Click="tipPathButton_Click"/>
-        <Button x:Name="userPathButton" Content="..." HorizontalAlignment="Left" Margin="491,302,0,0" VerticalAlignment="Top" Width="16" Click="userPathButton_Click"/>
-        <Button x:Name="convertAll" Content="convert all" HorizontalAlignment="Left" Margin="10,330,0,0" VerticalAlignment="Top" Width="551" Click="convertAll_Click"/>
-        <Button x:Name="convertUser" Content="convert" HorizontalAlignment="Left" Margin="512,302,0,0" VerticalAlignment="Top" Width="49" Click="convertUser_Click"/>
-        <Button x:Name="convertTip" Content="convert" HorizontalAlignment="Left" Margin="512,274,0,0" VerticalAlignment="Top" Width="49" Click="convertTip_Click"/>
-        <Button x:Name="convertReview" Content="convert" HorizontalAlignment="Left" Margin="512,246,0,0" VerticalAlignment="Top" Width="49" Click="convertReview_Click"/>
-        <Button x:Name="convertCheckin" Content="convert" HorizontalAlignment="Left" Margin="512,218,0,0" VerticalAlignment="Top" Width="49" Click="convertCheckin_Click"/>
-        <Button x:Name="convertBusiness" Content="convert" HorizontalAlignment="Left" Margin="512,190,0,0" VerticalAlignment="Top" Width="49" Click="convertBusiness_Click"/>
-        <TextBox x:Name="conversionText" HorizontalAlignment="Left" Height="175" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="551"/>
+        <TextBox x:Name="businessPath" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="businessPath" VerticalAlignment="Top" Width="476"/>
+        <Button x:Name="businessPathButton" Content="..." HorizontalAlignment="Left" Margin="491,10,0,0" VerticalAlignment="Top" Width="16" RenderTransformOrigin="3.043,-4.13" Click="businessPathButton_Click"/>
+        <TextBox x:Name="checkinPath" HorizontalAlignment="Left" Height="23" Margin="10,66,0,0" TextWrapping="Wrap" Text="checkinPath" VerticalAlignment="Top" Width="476"/>
+        <TextBox x:Name="reviewPath" HorizontalAlignment="Left" Height="23" Margin="10,122,0,0" TextWrapping="Wrap" Text="reviewPath" VerticalAlignment="Top" Width="476"/>
+        <TextBox x:Name="tipPath" HorizontalAlignment="Left" Height="23" Margin="10,178,0,0" TextWrapping="Wrap" Text="tipPath" VerticalAlignment="Top" Width="476"/>
+        <TextBox x:Name="userPath" HorizontalAlignment="Left" Height="23" Margin="10,234,0,0" TextWrapping="Wrap" Text="userPath" VerticalAlignment="Top" Width="476"/>
+        <Button x:Name="checkinPathButton" Content="..." HorizontalAlignment="Left" Margin="491,66,0,0" VerticalAlignment="Top" Width="16" RenderTransformOrigin="0.516,-0.011" Click="checkinPathButton_Click"/>
+        <Button x:Name="reviewPathButton" Content="..." HorizontalAlignment="Left" Margin="491,122,0,0" VerticalAlignment="Top" Width="16" Click="reviewPathButton_Click"/>
+        <Button x:Name="tipPathButton" Content="..." HorizontalAlignment="Left" Margin="491,178,0,0" VerticalAlignment="Top" Width="16" Click="tipPathButton_Click"/>
+        <Button x:Name="userPathButton" Content="..." HorizontalAlignment="Left" Margin="491,234,0,0" VerticalAlignment="Top" Width="16" Click="userPathButton_Click"/>
+        <Button x:Name="convertAll" Content="convert all" HorizontalAlignment="Left" Margin="10,290,0,0" VerticalAlignment="Top" Width="551" Click="convertAll_Click"/>
+        <Button x:Name="convertUser" Content="convert" HorizontalAlignment="Left" Margin="512,234,0,0" VerticalAlignment="Top" Width="49" Click="convertUser_Click"/>
+        <Button x:Name="convertTip" Content="convert" HorizontalAlignment="Left" Margin="512,178,0,0" VerticalAlignment="Top" Width="49" Click="convertTip_Click"/>
+        <Button x:Name="convertReview" Content="convert" HorizontalAlignment="Left" Margin="512,122,0,0" VerticalAlignment="Top" Width="49" Click="convertReview_Click"/>
+        <Button x:Name="convertCheckin" Content="convert" HorizontalAlignment="Left" Margin="512,66,0,0" VerticalAlignment="Top" Width="49" Click="convertCheckin_Click"/>
+        <Button x:Name="convertBusiness" Content="convert" HorizontalAlignment="Left" Margin="512,10,0,0" VerticalAlignment="Top" Width="49" Click="convertBusiness_Click"/>
+        <TextBox x:Name="conversionText" HorizontalAlignment="Left" Height="31" Margin="10,346,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="551"/>
+        <Button x:Name="enterBusiness" Content="enter business to database" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Width="551" Click="enterBusiness_Click"/>
+        <Button x:Name="enterCheckin" Content="enter checkin to database" HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top" Width="551" Click="enterCheckin_Click"/>
+        <Button x:Name="enterReview" Content="enter review to database" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top" Width="551" Click="enterReview_Click"/>
+        <Button x:Name="enterTip" Content="enter tip to database" HorizontalAlignment="Left" Margin="10,206,0,0" VerticalAlignment="Top" Width="551" Click="enterTip_Click"/>
+        <Button x:Name="enterUser" Content="enter user to database" HorizontalAlignment="Left" Margin="10,262,0,0" VerticalAlignment="Top" Width="551" Click="enterUser_Click"/>
+        <Button x:Name="enterAll" Content="enter all to database" HorizontalAlignment="Left" Margin="10,318,0,0" VerticalAlignment="Top" Width="551" Click="enterAll_Click"/>
 
     </Grid>
 </Window>
