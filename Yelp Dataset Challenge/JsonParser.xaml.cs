@@ -432,33 +432,119 @@ namespace Yelp_Dataset_Challenge
             convertReview_Click(null, null);
         }
 
+        /// <summary>
+        /// Insert business data from json to sql
+        /// 
+        /// Created : July 27th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void enterBusiness_Click(object sender, RoutedEventArgs e)
         {
+            sqlEnter("business.sql");
+            sqlEnter("category.sql");
+            sqlEnter("neighborhood.sql");
+            sqlEnter("hours.sql");
+            sqlEnter("attributes.sql");
 
         }
 
+        /// <summary>
+        /// Insert checkin data from json to sql
+        /// 
+        /// Created : July 27th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void enterCheckin_Click(object sender, RoutedEventArgs e)
         {
-
+            sqlEnter("checkin.sql");
         }
 
+        /// <summary>
+        /// Insert tip data from json to sql
+        /// 
+        /// Created : July 27th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void enterTip_Click(object sender, RoutedEventArgs e)
         {
-
+            sqlEnter("tip.sql");
         }
 
+        /// <summary>
+        /// Insert review data from json to sql
+        /// 
+        /// Created : July 27th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void enterReview_Click(object sender, RoutedEventArgs e)
         {
-
+            sqlEnter("review.sql");
         }
 
+        /// <summary>
+        /// Insert user data from json to sql
+        /// 
+        /// Created : July 27th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void enterUser_Click(object sender, RoutedEventArgs e)
         {
-
+            sqlEnter("users.sql");
+            sqlEnter("friend.sql");
+            sqlEnter("elite.sql");
         }
 
+        /// <summary>
+        /// Insert all data from json to sql
+        /// 
+        /// Created : July 27th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void enterAll_Click(object sender, RoutedEventArgs e)
         {
+            enterBusiness_Click();
+            enterUser_Click();
+            enterCheckin_Click();
+            enterTip_Click();
+            enterReview_Click();
+        }
+
+        /// <summary>
+        /// The guts of all entering into sql database
+        /// 
+        /// Created : July 27th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sqlFile"></param>
+        private void sqlEnter(string sqlFile)
+        {
+            try
+            {
+                string line;
+                SQLConnect connection = new SQLConnect();
+
+                using (StreamReader reader = new StreamReader(sqlFile))
+                {
+                    while (true)
+                    {
+                        line = reader.ReadLine();
+                        if (line == null)
+                        {
+                            break;
+                        }
+                        connection.sqlUpdate(line);
+                    }
+                }
+            }
+            catch
+            {
+
+            }
 
         }
     }
