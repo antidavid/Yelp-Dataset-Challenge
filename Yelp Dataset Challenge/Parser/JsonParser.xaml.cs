@@ -3,7 +3,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Json;
-using System.Threading;
 
 namespace Yelp_Dataset_Challenge
 {
@@ -508,11 +507,11 @@ namespace Yelp_Dataset_Challenge
         /// <param name="e"></param>
         private void enterAll_Click(object sender, RoutedEventArgs e)
         {
-            enterBusiness_Click();
-            enterUser_Click();
-            enterCheckin_Click();
-            enterTip_Click();
-            enterReview_Click();
+            enterBusiness_Click(null, null);
+            enterUser_Click(null, null);
+            enterCheckin_Click(null, null);
+            enterTip_Click(null, null);
+            enterReview_Click(null, null);
         }
 
         /// <summary>

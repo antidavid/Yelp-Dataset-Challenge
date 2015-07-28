@@ -1,0 +1,9 @@
+﻿<Window x:Class="Yelp_Dataset_Challenge.mainApp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="mainApp" Height="368" Width="531">
+    <Grid>
+        <ListBox x:Name="businessList" HorizontalAlignment="Left" Height="317" VerticalAlignment="Top" Width="109" Margin="10,10,0,0"/>
+
+    </Grid>
+</Window>

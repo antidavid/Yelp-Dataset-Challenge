@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Button x:Name="parseJson" Content="Parse Json Files" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="497" RenderTransformOrigin="1.169,1.497" Height="63" Click="parseJson_Click"/>
+        <Button x:Name="parseJson" Content="Parse Json Files" HorizontalAlignment="Left" Margin="10,246,0,0" VerticalAlignment="Top" Width="497" RenderTransformOrigin="1.169,1.497" Height="63" Click="parseJson_Click"/>
+        <Button x:Name="appLaunch" Content="Launch Application" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="497" Height="231" Click="appLaunch_Click"/>
 
     </Grid>
 </Window>

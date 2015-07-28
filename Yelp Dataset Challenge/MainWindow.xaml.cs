@@ -45,5 +45,13 @@ namespace Yelp_Dataset_Challenge
 
             temp.Show();
         }
+
+        private void appLaunch_Click(object sender, RoutedEventArgs e)
+        {
+            mainApp temp = new mainApp();
+
+            temp.Show();
+        }
+
     }
 }
