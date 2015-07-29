@@ -3,7 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="mainApp" Height="368" Width="531">
     <Grid>
-        <ListBox x:Name="businessList" HorizontalAlignment="Left" Height="317" VerticalAlignment="Top" Width="109" Margin="10,10,0,0"/>
+        <ListBox x:Name="businessList" HorizontalAlignment="Left" Height="177" VerticalAlignment="Top" Width="503" Margin="10,150,0,0"/>
+        <ComboBox x:Name="stateComboBox" HorizontalAlignment="Left" Margin="393,93,0,0" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+        <Button x:Name="searchButton" Content="search" HorizontalAlignment="Left" Margin="10,122,0,0" VerticalAlignment="Top" Width="503" Click="searchButton_Click"/>
+        <Label Content="state :" HorizontalAlignment="Left" Margin="393,62,0,0" VerticalAlignment="Top" Width="45"/>
 
     </Grid>
 </Window>

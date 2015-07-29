@@ -22,12 +22,42 @@ namespace Yelp_Dataset_Challenge
         public mainApp()
         {
             InitializeComponent();
-            businessListInit();
+            //businessListInit();
+            initializeContent();
         }
 
-        public void businessListInit()
+        /// <summary>
+        /// Initialize the page
+        /// 
+        /// Created July 28th, 2015 - David Fletcher
+        /// </summary>
+        public void initializeContent()
         {
-            string sqlString = "SELECT name FROM businessTable";
+            string sqlString = "SELECT DISTINCT state FROM businessTable ORDER BY state ASC;";
+            SQLConnect con = new SQLConnect();
+            List<string> states = con.sqlSelect(sqlString);
+
+            foreach (string item in states)
+            {
+                stateComboBox.Items.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Action that occurs when the search button is clicked
+        /// 
+        /// Created July 28th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void searchButton_Click(object sender, RoutedEventArgs e)
+        {
+            string sqlString = "SELECT name FROM businessTable ";
+            if (stateComboBox.SelectedIndex > -1)
+            {
+                sqlString += "WHERE state LIKE '" + stateComboBox.Text.Trim() + "';";
+            }
+
             SQLConnect con = new SQLConnect();
             List<string> list = con.sqlSelect(sqlString);
 
@@ -36,5 +66,7 @@ namespace Yelp_Dataset_Challenge
                 businessList.Items.Add(item);
             }
         }
+
+
     }
 }
