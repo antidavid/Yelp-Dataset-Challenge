@@ -19,9 +19,23 @@ namespace Yelp_Dataset_Challenge
     /// </summary>
     public partial class Business : Window
     {
-        public Business()
+        
+        public Business(string bID)
         {
             InitializeComponent();
+            initializeLabels(bID);
+        }
+
+        private void initializeLabels(string bID)
+        {
+            string sqlQuery = "SELECT address FROM businessTable WHERE business_id LIKE '" + bID + "';";
+
+            SQLConnect con = new SQLConnect();
+            List<string> list = new List<string>();
+
+            list = con.sqlSelect(sqlQuery);
+
+            addressLabel.Content = list[0];
         }
     }
 }

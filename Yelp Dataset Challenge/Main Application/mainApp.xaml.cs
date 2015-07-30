@@ -19,6 +19,8 @@ namespace Yelp_Dataset_Challenge
     /// </summary>
     public partial class mainApp : Window
     {
+        private Dictionary<int, string> businessDict = new Dictionary<int, string>();
+
         public mainApp()
         {
             InitializeComponent();
@@ -53,6 +55,8 @@ namespace Yelp_Dataset_Challenge
         ///     Added support for stars condition
         ///     Added search functionality
         ///     Added zip searching
+        /// Updated July 30th, 2015 - David Fletcher
+        ///     Changed to support a dictionary for finding business_id 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -61,13 +65,13 @@ namespace Yelp_Dataset_Challenge
             bool where = false;
             businessList.Items.Clear();
 
-            string sqlString = "SELECT name FROM businessTable ";
-
+            string sqlString = "SELECT business_id, name FROM businessTable ";
             // check if state is selected
             if (stateComboBox.SelectedIndex > -1)
             {
                 sqlString = appendCond(sqlString, where);
                 sqlString += "state LIKE '" + stateComboBox.Text.Trim() + "' ";
+
                 where = true;
             }
             
@@ -76,6 +80,7 @@ namespace Yelp_Dataset_Challenge
             {
                 sqlString = appendCond(sqlString, where);
                 sqlString += "city LIKE '" + cityComboBox.Text.Trim() + "' ";
+
                 where = true;
             }
 
@@ -84,6 +89,7 @@ namespace Yelp_Dataset_Challenge
             {
                 sqlString = appendCond(sqlString, where);
                 sqlString += "stars >= " + starsComboBox.Text.Trim() + " ";
+
                 where = true;
             }
 
@@ -92,6 +98,7 @@ namespace Yelp_Dataset_Challenge
             {
                 sqlString = appendCond(sqlString, where);
                 sqlString += "name LIKE '%" + searchTextBox.Text.Trim() + "%' ";
+
                 where = true;
             }
 
@@ -100,6 +107,7 @@ namespace Yelp_Dataset_Challenge
             {
                 sqlString = appendCond(sqlString, where);
                 sqlString += "address LIKE '% " + zipTextBox.Text.Trim() + "' ";
+
                 where = true;
             }
 
@@ -108,9 +116,13 @@ namespace Yelp_Dataset_Challenge
             SQLConnect con = new SQLConnect();
             List<string> list = con.sqlSelect(sqlString);
 
-            foreach (string item in list)
+            businessDict.Clear();
+
+            for (int i = 0; i < list.Count; i++)
             {
-                businessList.Items.Add(item);
+                businessDict.Add(i, list[i].Substring(0, list[i].IndexOf(' ')));
+
+                businessList.Items.Add(list[i].Substring(list[i].IndexOf(' ') + 1));
             }
 
         }
@@ -186,8 +198,12 @@ namespace Yelp_Dataset_Challenge
 
         private void businessList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Business view = new Business();
+            //businessSqlString += "AND name LIKE '" + (sender as ListBox).SelectedItem.ToString().Trim() + "';";
+            Business view = new Business(businessDict[(sender as ListBox).SelectedIndex]);
             view.businessLabel.Content = (sender as ListBox).SelectedItem.ToString().Trim();
+
+            //view.bID = businessDict[(sender as ListBox).SelectedIndex];
+
             view.Show();
         }
     }
