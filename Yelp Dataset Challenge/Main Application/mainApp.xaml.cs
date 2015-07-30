@@ -183,5 +183,12 @@ namespace Yelp_Dataset_Challenge
                 starsComboBox.Items.Add(i);
             }
         }
+
+        private void businessList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Business view = new Business();
+            view.businessLabel.Content = (sender as ListBox).SelectedItem.ToString().Trim();
+            view.Show();
+        }
     }
 }
