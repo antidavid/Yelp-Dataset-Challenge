@@ -26,6 +26,12 @@ namespace Yelp_Dataset_Challenge
             initializeLabels(bID);
         }
 
+        /// <summary>
+        /// Initialize all labels for the business page
+        /// 
+        /// Created July 30th, 2015 - David Fletcher
+        /// </summary>
+        /// <param name="bID"></param>
         private void initializeLabels(string bID)
         {
             string sqlQuery = "SELECT address FROM businessTable WHERE business_id LIKE '" + bID + "';";
