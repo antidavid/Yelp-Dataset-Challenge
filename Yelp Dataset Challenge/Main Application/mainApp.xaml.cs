@@ -24,7 +24,6 @@ namespace Yelp_Dataset_Challenge
         public mainApp()
         {
             InitializeComponent();
-            //businessListInit();
             initializeContent();
             initializeStars();
         }
@@ -33,12 +32,14 @@ namespace Yelp_Dataset_Challenge
         /// Initialize the page
         /// 
         /// Created July 28th, 2015 - David Fletcher
+        /// Updated August 2nd, 2015 - David Fletcher
+        ///     - Supports separation token
         /// </summary>
         public void initializeContent()
         {
             string sqlString = "SELECT DISTINCT state FROM businessTable ORDER BY state ASC;";
             SQLConnect con = new SQLConnect();
-            List<string> states = con.sqlSelect(sqlString);
+            List<string> states = con.sqlSelect(sqlString, false);
 
             foreach (string item in states)
             {
@@ -57,6 +58,8 @@ namespace Yelp_Dataset_Challenge
         ///     Added zip searching
         /// Updated July 30th, 2015 - David Fletcher
         ///     Changed to support a dictionary for finding business_id 
+        /// Updated August 2nd, 2015 - David Fletcher
+        ///     Added support for seperation token
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -114,7 +117,7 @@ namespace Yelp_Dataset_Challenge
             sqlString += "ORDER BY name ASC;";
 
             SQLConnect con = new SQLConnect();
-            List<string> list = con.sqlSelect(sqlString);
+            List<string> list = con.sqlSelect(sqlString, false);
 
             businessDict.Clear();
 
@@ -133,6 +136,8 @@ namespace Yelp_Dataset_Challenge
         /// Created July 28th, 2015 - David Fletcher
         /// Updated July 29th, 2015 - David Fletcher
         ///     - Fixed bug 1
+        /// Updated August 2nd, 2015 - David Fletcher
+        ///     - Supports seperation token
         /// 
         /// Fixes Required : 
         ///     1) Need to fix update... not updating when state is changing properly using old one, Fixed : July 29th, 2015 - David Fletcher
@@ -146,11 +151,10 @@ namespace Yelp_Dataset_Challenge
             cityComboBox.Items.Add("any");
 
             string sqlString = "SELECT DISTINCT city FROM businessTable WHERE state LIKE '";
-            //sqlString += stateComboBox.Text.Trim() + "' ORDER BY city ASC;";
             sqlString += (sender as ComboBox).SelectedItem.ToString().Trim() + "' ORDER BY city ASC;";
 
             SQLConnect con = new SQLConnect();
-            List<string> list = con.sqlSelect(sqlString);
+            List<string> list = con.sqlSelect(sqlString, false);
 
             foreach (string city in list)
             {

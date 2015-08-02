@@ -34,6 +34,9 @@ namespace Yelp_Dataset_Challenge
         ///     - Added city state label update 
         ///     - Added lat and long label
         ///     - Added stars and review count label
+        /// Updated August 2nd, 2015 - David Fletcher
+        ///     - Removed city state label
+        ///     - added support for seperation tags
         /// </summary>
         /// <param name="bID"></param>
         private void initializeLabels(string bID)
@@ -42,31 +45,30 @@ namespace Yelp_Dataset_Challenge
 
             SQLConnect con = new SQLConnect();
             List<string> list = new List<string>();
+            string[] elements;
 
-            list = con.sqlSelect(sqlQuery);
+            list = con.sqlSelect(sqlQuery, false);
 
             addressLabel.Content = list[0];
-
-            sqlQuery = "SELECT city, state FROM businessTable WHERE business_id LIKE '" + bID + "';";
-
-            list.Clear();
-
-            list = con.sqlSelect(sqlQuery);
-            cityStateLabel.Content = list[0];
 
             sqlQuery = "SELECT latitude, longitude FROM businessTable WHERE business_id LIKE '" + bID + "';";
 
             list.Clear();
 
-            list = con.sqlSelect(sqlQuery);
-            latLongLabel.Content = list[0];
+            list = con.sqlSelect(sqlQuery, true);
+            elements = list[0].Split(';');
+
+            latLongLabel.Content = "latitude : " + elements[0] + " longitude : " + elements[1];
 
             sqlQuery = "SELECT stars, review_count FROM businessTable WHERE business_id LIKE '" + bID + "';";
 
             list.Clear();
 
-            list = con.sqlSelect(sqlQuery);
-            starsReviewLabel.Content = list[0];
+            list = con.sqlSelect(sqlQuery, true);
+
+            elements = list[0].Split(';');
+
+            starsReviewLabel.Content = "stars : " + elements[0] + " review count : " + elements[1];
         }
     }
 }

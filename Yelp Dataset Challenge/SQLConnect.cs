@@ -101,10 +101,12 @@ namespace Yelp_Dataset_Challenge
         /// Created July 11th, 2015 : David Fletcher
         /// Updated July 22nd, 2015 : David Fletcher
         ///     - Converted to SQL
+        /// Updated August 2nd, 2015 : David Fletcher
+        ///     - Added a seperation token
         /// </summary>
         /// <param name="queryStr">the query string</param>
         /// <returns>list of strings of the query</returns>
-        public List<string> sqlSelect(string queryStr)
+        public List<string> sqlSelect(string queryStr, bool sepToken)
         {
             List<string> qResult = new List<string>();
 
@@ -119,7 +121,14 @@ namespace Yelp_Dataset_Challenge
 
                     for (int i = 0; i < dRead.FieldCount; i++)
                     {
-                        temp += dRead.GetString(i).ToString() + " ";
+                        if (sepToken == false)
+                        {
+                            temp += dRead.GetString(i).ToString() + " ";
+                        }
+                        else
+                        {
+                            temp += dRead.GetString(i).ToString() + ";";
+                        }
                     }
                     qResult.Add(temp);
                 }
