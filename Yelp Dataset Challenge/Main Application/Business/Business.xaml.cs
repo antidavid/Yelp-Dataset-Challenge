@@ -29,7 +29,11 @@ namespace Yelp_Dataset_Challenge
         /// <summary>
         /// Initialize all labels for the business page
         /// 
-        /// Created July 30th, 2015 - David Fletcher 
+        /// Created July 30th, 2015 - David Fletcher
+        /// Updated August 1st, 2015 - David Fletcher
+        ///     - Added city state label update 
+        ///     - Added lat and long label
+        ///     - Added stars and review count label
         /// </summary>
         /// <param name="bID"></param>
         private void initializeLabels(string bID)
@@ -42,6 +46,27 @@ namespace Yelp_Dataset_Challenge
             list = con.sqlSelect(sqlQuery);
 
             addressLabel.Content = list[0];
+
+            sqlQuery = "SELECT city, state FROM businessTable WHERE business_id LIKE '" + bID + "';";
+
+            list.Clear();
+
+            list = con.sqlSelect(sqlQuery);
+            cityStateLabel.Content = list[0];
+
+            sqlQuery = "SELECT latitude, longitude FROM businessTable WHERE business_id LIKE '" + bID + "';";
+
+            list.Clear();
+
+            list = con.sqlSelect(sqlQuery);
+            latLongLabel.Content = list[0];
+
+            sqlQuery = "SELECT stars, review_count FROM businessTable WHERE business_id LIKE '" + bID + "';";
+
+            list.Clear();
+
+            list = con.sqlSelect(sqlQuery);
+            starsReviewLabel.Content = list[0];
         }
     }
 }
