@@ -29,7 +29,7 @@ namespace Yelp_Dataset_Challenge
         /// <summary>
         /// Initialize all labels for the business page
         /// 
-        /// Created July 30th, 2015 - David Fletcher
+        /// Created July 30th, 2015 - David Fletcher 
         /// </summary>
         /// <param name="bID"></param>
         private void initializeLabels(string bID)
