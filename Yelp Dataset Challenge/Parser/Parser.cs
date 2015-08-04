@@ -16,18 +16,19 @@ namespace Yelp_Dataset_Challenge
         /// Created May 23, 2015 - David Fletcher
         /// Updated May 25, 2015 - David Fletcher
         ///     - Simplified and cleaned up
+        /// Updated August 3rd, 2015 - David FLetcher
+        ///     - Updated so that review text would parse appropriately
         /// </summary>
         /// <param name="inStr"></param>
         /// <returns></returns>
         private string CleanForSQL(string inStr)
         {
-            Regex rgx = new Regex("[^a-zA-Z0-9 ]");
+            String outStr = Encoding.GetEncoding("iso-8859-1").GetString(Encoding.UTF8.GetBytes(inStr));
+            outStr = outStr.Replace("\"", "").Replace("'", " ").Replace(@"\n", " ").Replace(@"\u000a", " ").Replace("\\", " ").Replace("é", "e").Replace("ê", "e").Replace("Ã¼", "A").Replace("Ã", "A").Replace("¤", "").Replace("©", "c").Replace("¶", "");
+            outStr = Regex.Replace(outStr, @"[^\u0020-\u007E]", "?");
 
-            inStr = inStr.Replace(@"\n", " ").Replace(@"\u000a", " ");
-
-            String outStr = rgx.Replace(inStr, "");
-
-            return outStr;
+            //Only get he first maxLength chars. Set maxLength to the max length of your attribute.
+            return outStr.Substring(0, Math.Min(outStr.Length, maxLength));
         }
 
         /// <summary>
@@ -112,7 +113,7 @@ namespace Yelp_Dataset_Challenge
             {
                 retString += "INSERT INTO neighborhoodTable (business_id, neighborhood_name) VALUES ('";
                 retString += jsonStr["business_id"].ToString().Replace("\"", "") + "', '";
-                retString += CleanForSQL(neighborhoods[i].ToString()) + ");\n";
+                retString += CleanForSQL(neighborhoods[i].ToString()) + "');\n";
             }
             return retString;
         }
@@ -226,6 +227,8 @@ namespace Yelp_Dataset_Challenge
         /// Created July 9th, 2015 - David Fletcher
         /// Updated July 27, 2015 - David Fletcher
         ///     Adapted to new SQL Layout
+        /// Updated August 3rd, 2015 - David Fletcher
+        ///     repaired the text portion so that it parses properly
         /// 
         /// Potential Problems... 
         ///     string length for text may be too long unsure at the moment
@@ -238,12 +241,12 @@ namespace Yelp_Dataset_Challenge
             string retString = null;
             JsonObject votes = (JsonObject)jsonStr["votes"];
 
-            retString += "INSERT IGNORE reviewTable (business_id, user_id, review_id, stars, text, date, votes_funny, votes_useful, votes_cool) VALUES ('";
-            retString += jsonStr["business_id"].ToString().Replace("\"", "") + "', '";
-            retString += jsonStr["user_id"].ToString().Replace("\"", "") + "', '";
-            retString += jsonStr["review_id"].ToString().Replace("\"", "") + "', '";
+            retString += "INSERT INTO reviewTable (business_id, user_id, review_id, stars, text, date, votes_funny, votes_useful, votes_cool) VALUES ('";
+            retString += CleanForSQL(jsonStr["business_id"].ToString()) + "', '";
+            retString += CleanForSQL(jsonStr["user_id"].ToString()) + "', '";
+            retString += CleanForSQL(jsonStr["review_id"].ToString()) + "', '";
             retString += CleanForSQL(jsonStr["stars"].ToString()) + "', '";
-            retString += jsonStr["text"].ToString().Replace("\"", "") + "', '";
+            retString += CleanForSQL(jsonStr["text"].ToString()) + "', '";
             retString += CleanForSQL(jsonStr["date"].ToString());
             foreach (string type in votes.Keys)
             {
@@ -291,6 +294,8 @@ namespace Yelp_Dataset_Challenge
         /// Created July 10th, 2015 - David Fletcher
         /// Updated July 27, 2015 - David Fletcher
         ///     Adapted to new SQL Layout
+        /// Updated August 3rd, 2015 - David Fletcher
+        ///     insert statement modified
         /// </summary>
         /// <param name="jsonStr">Line of json file</param>
         /// <returns>sql insert string</returns>
@@ -299,7 +304,7 @@ namespace Yelp_Dataset_Challenge
             string retString = null;
             JsonObject votes = (JsonObject)jsonStr["votes"];
 
-            retString += "INSERT INTO usersTable (user_id, name, review_count, average_stars, votes_funny, votes_useful, votes_cool, yelping_since, fans) VALUES ('";
+            retString += "INSERT INTO userTable (user_id, name, review_count, average_stars, votes_funny, votes_useful, votes_cool, yelping_since, fans) VALUES ('";
             retString += jsonStr["user_id"].ToString().Replace("\"", "") + "', '";
             retString += CleanForSQL(jsonStr["name"].ToString()) + "', '";
             retString += jsonStr["review_count"].ToString() + "', '";
@@ -348,6 +353,8 @@ namespace Yelp_Dataset_Challenge
         /// Created July 10th, 2015 - David Fletcher
         /// Updated July 27, 2015 - David Fletcher
         ///     Adapted to new SQL Layout
+        /// Updated August 3rd, 2015 - David Fletcher
+        ///     insert statement modified
         /// </summary>
         /// <param name="jsonStr">Line of json file</param>
         /// <returns>sql insert string</returns>
@@ -358,7 +365,7 @@ namespace Yelp_Dataset_Challenge
 
             for (int i = 0; i < friends.Count; i++)
             {
-                retString += "INSERT INTO friendsTable(user_id, friend_id) VALUES ('";
+                retString += "INSERT INTO friendTable(user_id, friend_id) VALUES ('";
                 retString += jsonStr["user_id"].ToString().Replace("\"", "") + "', '";
                 retString += friends[i].ToString() + "');\n";
             }
