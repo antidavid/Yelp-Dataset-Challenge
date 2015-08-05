@@ -69,6 +69,18 @@ namespace Yelp_Dataset_Challenge
             elements = list[0].Split(';');
 
             starsReviewLabel.Content = "stars : " + elements[0] + " review count : " + elements[1];
+
+            sqlQuery = "SELECT * FROM reviewTable WHERE business_id LIKE '" + bID + "';";
+            list.Clear();
+            list = con.sqlSelect(sqlQuery, true);
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                elements = list[i].Split(';');
+
+                textBlock.Text += elements[4];
+            }
+
         }
     }
 }

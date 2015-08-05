@@ -369,7 +369,7 @@ namespace Yelp_Dataset_Challenge
                 StreamWriter userSqlFile = new StreamWriter("users.sql");
                 StreamWriter eliteSqlFile = new StreamWriter("elite.sql");
                 StreamWriter friendSqlFile = new StreamWriter("friend.sql");
-                StreamWriter complimentSqlFile = new StreamWriter("complimnet.sql");
+                StreamWriter complimentSqlFile = new StreamWriter("compliment.sql");
 
                 Parser jsonToSql = new Parser();
 
@@ -488,14 +488,17 @@ namespace Yelp_Dataset_Challenge
         /// Insert user data from json to sql
         /// 
         /// Created : July 27th, 2015 - David Fletcher
+        /// Updated : August 4th, 2015 - David Fletcher
+        ///     - Added compliment.sql file
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void enterUser_Click(object sender, RoutedEventArgs e)
         {
-            sqlEnter("users.sql");
-            sqlEnter("friend.sql");
-            sqlEnter("elite.sql");
+            //sqlEnter("users.sql");
+            //sqlEnter("friend.sql");
+            //sqlEnter("elite.sql");
+            sqlEnter("compliment.sql");
         }
 
         /// <summary>
@@ -526,7 +529,7 @@ namespace Yelp_Dataset_Challenge
             {
                 string line;
                 SQLConnect connection = new SQLConnect();
-
+               
                 using (StreamReader reader = new StreamReader(sqlFile))
                 {
                     while (true)

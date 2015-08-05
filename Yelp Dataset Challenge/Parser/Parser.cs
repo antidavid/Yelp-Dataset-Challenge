@@ -82,7 +82,7 @@ namespace Yelp_Dataset_Challenge
             {
                 retString += "INSERT INTO categoryTable (business_id, category) VALUES ('";
                 retString += jsonStr["business_id"].ToString().Replace("\"", "") + "', '";
-                retString += CleanForSQL(categories[i].ToString()) + ");\n";
+                retString += CleanForSQL(categories[i].ToString()) + "');\n";
             }
             return retString;
         }
@@ -279,7 +279,7 @@ namespace Yelp_Dataset_Challenge
             retString += "INSERT INTO tipTable (business_id, user_id, text, date, likes) VALUES ('";
             retString += jsonStr["business_id"].ToString().Replace("\"", "") + "', '";
             retString += jsonStr["user_id"].ToString().Replace("\"", "") + "', '";
-            retString += jsonStr["text"].ToString().Replace("\"", "") + "', '";
+            retString += CleanForSQL(jsonStr["text"].ToString()) + "', '";
             retString += CleanForSQL(jsonStr["date"].ToString()) + "', '";
             retString += CleanForSQL(jsonStr["likes"].ToString()) + "');\n";
 
@@ -355,6 +355,8 @@ namespace Yelp_Dataset_Challenge
         ///     Adapted to new SQL Layout
         /// Updated August 3rd, 2015 - David Fletcher
         ///     insert statement modified
+        /// Updated August 4th, 2015 - David Fletcher
+        ///     Removed quotes around users friend
         /// </summary>
         /// <param name="jsonStr">Line of json file</param>
         /// <returns>sql insert string</returns>
@@ -367,7 +369,7 @@ namespace Yelp_Dataset_Challenge
             {
                 retString += "INSERT INTO friendTable(user_id, friend_id) VALUES ('";
                 retString += jsonStr["user_id"].ToString().Replace("\"", "") + "', '";
-                retString += friends[i].ToString() + "');\n";
+                retString += friends[i].ToString().Replace("\"", "") + "');\n";
             }
 
             return retString;
@@ -376,7 +378,7 @@ namespace Yelp_Dataset_Challenge
         /// <summary>
         /// Converts the json users file to a sql insert string
         /// of the form :
-        ///     user_id, compliment, compliment_count
+        ///     user_id, compliment_type, compliment_count
         ///     
         /// Created July 10th, 2015 - David Fletcher
         /// Updated July 27, 2015 - David Fletcher
@@ -393,7 +395,7 @@ namespace Yelp_Dataset_Challenge
             foreach (string compliment in compliments.Keys)
             {
 
-                retString += "INSERT INTO complimentTable (user_id, compliment, compliment_count) VALUES ('";
+                retString += "INSERT INTO complimentTable (user_id, compliment_type, compliment_count) VALUES ('";
                 retString += jsonStr["user_id"].ToString().Replace("\"", "") + "', '";
                 retString += compliment + "', '";
                 retString += CleanForSQL(compliments[compliment].ToString()) + "');\n";
