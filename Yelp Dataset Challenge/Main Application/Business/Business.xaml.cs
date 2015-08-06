@@ -37,6 +37,8 @@ namespace Yelp_Dataset_Challenge
         /// Updated August 2nd, 2015 - David Fletcher
         ///     - Removed city state label
         ///     - added support for seperation tags
+        /// Updated August 5th, 2015 - David Fletcher
+        ///     - Converted to textbox to allow for scrolling
         /// </summary>
         /// <param name="bID"></param>
         private void initializeLabels(string bID)
@@ -78,7 +80,7 @@ namespace Yelp_Dataset_Challenge
             {
                 elements = list[i].Split(';');
 
-                textBlock.Text += elements[4];
+                textBox.Text += elements[4] + "\n";
             }
 
         }

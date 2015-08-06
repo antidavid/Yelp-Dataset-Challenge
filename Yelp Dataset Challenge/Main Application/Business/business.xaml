@@ -11,7 +11,7 @@
         <Label x:Name="addressLabel" Content="Label" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top"/>
         <Label x:Name="latLongLabel" Content="Label" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top"/>
         <Label x:Name="starsReviewLabel" Content="Label" HorizontalAlignment="Left" Margin="494,67,0,0" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="161" Width="522"><Run Text="TextBlock"/></TextBlock>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="161" Margin="10,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="522"/>
 
     </Grid>
 </Window>
