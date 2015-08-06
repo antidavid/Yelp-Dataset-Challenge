@@ -39,6 +39,8 @@ namespace Yelp_Dataset_Challenge
         ///     - added support for seperation tags
         /// Updated August 5th, 2015 - David Fletcher
         ///     - Converted to textbox to allow for scrolling
+        /// Updated August 6th, 2015 - David Fletcher
+        ///     - Added stars, date and username to reviews
         /// </summary>
         /// <param name="bID"></param>
         private void initializeLabels(string bID)
@@ -79,8 +81,14 @@ namespace Yelp_Dataset_Challenge
             for (int i = 0; i < list.Count; i++)
             {
                 elements = list[i].Split(';');
+                sqlQuery = "SELECT name FROM userTable WHERE user_id LIKE '" + elements[1] + "';";
 
+                List<string> name = new List<string>();
+                name = con.sqlSelect(sqlQuery, false);
+
+                textBox.Text += name[0] + " date : " + elements[5] + " stars : " + elements[3] + "\n";
                 textBox.Text += elements[4] + "\n";
+                textBox.Text += "votes funny : " + elements[6] + " useful : " + elements[7] + " cool : " + elements[8] + "\n\n";
             }
 
         }
