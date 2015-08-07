@@ -9,9 +9,9 @@
     <Grid>
         <Label x:Name="businessLabel" Content="Label" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <Label x:Name="addressLabel" Content="Label" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="latLongLabel" Content="Label" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="starsReviewLabel" Content="Label" HorizontalAlignment="Left" Margin="494,67,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="161" Margin="10,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="522"/>
+        <Label x:Name="latLongLabel" Content="Label" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="starsReviewLabel" Content="Label" HorizontalAlignment="Right" Margin="0,88,324,0" VerticalAlignment="Top" Width="208"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="140" Margin="10,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="522" IsReadOnly="True"/>
 
     </Grid>
 </Window>

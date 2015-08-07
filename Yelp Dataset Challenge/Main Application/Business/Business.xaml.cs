@@ -66,18 +66,17 @@ namespace Yelp_Dataset_Challenge
 
             sqlQuery = "SELECT stars, review_count FROM businessTable WHERE business_id LIKE '" + bID + "';";
 
+            // get stars and review count
             list.Clear();
-
             list = con.sqlSelect(sqlQuery, true);
-
             elements = list[0].Split(';');
-
             starsReviewLabel.Content = "stars : " + elements[0] + " review count : " + elements[1];
 
             sqlQuery = "SELECT * FROM reviewTable WHERE business_id LIKE '" + bID + "';";
             list.Clear();
             list = con.sqlSelect(sqlQuery, true);
 
+            // cycle through reviews
             for (int i = 0; i < list.Count; i++)
             {
                 elements = list[i].Split(';');
@@ -88,7 +87,7 @@ namespace Yelp_Dataset_Challenge
 
                 textBox.Text += name[0] + " date : " + elements[5] + " stars : " + elements[3] + "\n";
                 textBox.Text += elements[4] + "\n";
-                textBox.Text += "votes funny : " + elements[6] + " useful : " + elements[7] + " cool : " + elements[8] + "\n\n";
+                textBox.Text += "votes funny : " + elements[6] + " useful : " + elements[7] + " cool : " + elements[8] + "\n";
             }
 
         }

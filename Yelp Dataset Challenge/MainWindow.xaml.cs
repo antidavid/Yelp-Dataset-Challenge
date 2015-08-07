@@ -23,6 +23,8 @@ namespace Yelp_Dataset_Challenge
         /// Launch the parseJson file
         /// 
         /// Created : May 18th, 2015 - David Fletcher
+        /// Updated : August 6th, 2015 - David Fletcher
+        ///     - Added user show
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -40,5 +42,11 @@ namespace Yelp_Dataset_Challenge
             temp.Show();
         }
 
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            User temp = new User();
+
+            temp.Show();
+        }
     }
 }

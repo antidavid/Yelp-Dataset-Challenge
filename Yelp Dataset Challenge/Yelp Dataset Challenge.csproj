@@ -64,15 +64,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Main Application\User\User.xaml.cs">
+      <DependentUpon>User.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Main Application\User\userDetails.xaml.cs">
+      <DependentUpon>userDetails.xaml</DependentUpon>
+    </Compile>
     <Page Include="Main Application\Business\Business.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Main Application\mainApp.xaml">
+    <Page Include="Main Application\Business\mainApp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Parser\JsonParser.xaml">
+    <Page Include="Main Application\Parser\JsonParser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -87,20 +93,28 @@
     <Compile Include="Main Application\Business\Business.xaml.cs">
       <DependentUpon>Business.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Main Application\mainApp.xaml.cs">
+    <Compile Include="Main Application\Business\mainApp.xaml.cs">
       <DependentUpon>mainApp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Parser\JsonParser.xaml.cs">
+    <Compile Include="Main Application\Parser\JsonParser.xaml.cs">
       <DependentUpon>JsonParser.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Main Application\User\User.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Main Application\User\userDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SQLConnect.cs" />
-    <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Main Application\Parser\Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
