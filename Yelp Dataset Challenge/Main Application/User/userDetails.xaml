@@ -11,8 +11,10 @@
         <Label x:Name="reviewStarsFansLabel" Content="Label" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
         <Label x:Name="votesLabel" Content="Label" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
         <Label x:Name="dateLabel" Content="Label" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="friendList" HorizontalAlignment="Left" Height="94" Margin="10,165,0,0" VerticalAlignment="Top" Width="272" SelectionChanged="friendList_SelectionChanged"/>
+        <ListBox x:Name="friendList" HorizontalAlignment="Left" Height="94" Margin="10,165,0,0" VerticalAlignment="Top" Width="158" SelectionChanged="friendList_SelectionChanged"/>
         <Label x:Name="label" Content="friends :" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="complimentsList" HorizontalAlignment="Left" Height="94" Margin="173,165,0,0" VerticalAlignment="Top" Width="109"/>
+        <Label x:Name="label1" Content="compliments :" HorizontalAlignment="Left" Margin="173,134,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

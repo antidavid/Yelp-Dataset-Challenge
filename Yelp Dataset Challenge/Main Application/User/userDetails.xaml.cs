@@ -45,11 +45,13 @@ namespace Yelp_Dataset_Challenge
 
             string[] details = userDetails[0].Split(';');
 
+            // populate base information
             nameLabel.Content = details[1];
             reviewStarsFansLabel.Content = "reviews : " + details[2] + " stars : " + details[3].Substring(0,3) + " fans : " + details[8];
             votesLabel.Content = "votes funny : " + details[4] + " cool : " + details[5] + " useful : " + details[6];
             dateLabel.Content = "yelping since : " + details[7].Replace("\"", "");
 
+            // populate friends
             sqlQuery = "SELECT friend_id FROM friendTable WHERE user_id LIKE '" + uID.Trim() + "';";
             List<string> friends = new List<string>();
             friends = con.sqlSelect(sqlQuery, false);
@@ -64,6 +66,18 @@ namespace Yelp_Dataset_Challenge
                     friendList.Items.Add(userDetails[0].ToString());
                 }
             }
+
+            // populate compliment list
+            sqlQuery = "SELECT compliment_type, compliment_count FROM complimentTable WHERE user_id LIKE '" + uID.Trim() + "' ORDER BY compliment_type ASC";
+            List<string> compliments = new List<string>();
+            compliments = con.sqlSelect(sqlQuery, true);
+
+            for (int i = 0; i < compliments.Count; i++)
+            {
+                string[] compliment = compliments[i].Split(';');
+                complimentsList.Items.Add(compliment[0].ToString().Trim() + " : " + compliment[1].ToString().Trim());
+            }
+
         }
 
         /// <summary>
