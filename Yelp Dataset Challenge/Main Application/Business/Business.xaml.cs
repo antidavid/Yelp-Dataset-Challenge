@@ -41,44 +41,58 @@ namespace Yelp_Dataset_Challenge
         ///     - Converted to textbox to allow for scrolling
         /// Updated August 6th, 2015 - David Fletcher
         ///     - Added stars, date and username to reviews
+        /// Updated August 7th, 2015 - David Fletcher
+        ///     - Simplified initializer to reduce sql queries and to help optimize
+        ///     - Added hours display
         /// </summary>
         /// <param name="bID"></param>
         private void initializeLabels(string bID)
         {
-            string sqlQuery = "SELECT address FROM businessTable WHERE business_id LIKE '" + bID + "';";
+            string sqlQuery = "SELECT * FROM businessTable WHERE business_id LIKE '" + bID + "';";
+            //string sqlQuery = "SELECT address FROM businessTable WHERE business_id LIKE '" + bID + "';";
 
             SQLConnect con = new SQLConnect();
             List<string> list = new List<string>();
             string[] elements;
 
-            list = con.sqlSelect(sqlQuery, false);
-
-            addressLabel.Content = list[0];
-
-            sqlQuery = "SELECT latitude, longitude FROM businessTable WHERE business_id LIKE '" + bID + "';";
-
-            list.Clear();
-
             list = con.sqlSelect(sqlQuery, true);
             elements = list[0].Split(';');
 
-            latLongLabel.Content = "latitude : " + elements[0] + " longitude : " + elements[1];
+            addressLabel.Content = elements[2];
+            latLongLabel.Content = "latitude : " + elements[5] + " longitude : " + elements[6];
+            starsReviewLabel.Content = "stars : " + elements[7] + " review count : " + elements[8];
 
-            sqlQuery = "SELECT stars, review_count FROM businessTable WHERE business_id LIKE '" + bID + "';";
-
-            // get stars and review count
+            sqlQuery = "SELECT week_day, open_time, close_time FROM hoursTable WHERE business_id LIKE '" + bID + "' ORDER BY CASE WHEN week_day = 'Sunday' THEN 1 WHEN week_day = 'Monday' THEN 2 WHEN week_day = 'Tuesday' THEN 3 WHEN week_day = 'Wednesday' THEN 4 WHEN week_day = 'Thursday' THEN 5 WHEN week_day = 'Friday' THEN 6 WHEN week_day = 'Saturday' THEN 7 END ASC; ";
             list.Clear();
             list = con.sqlSelect(sqlQuery, true);
-            elements = list[0].Split(';');
-            starsReviewLabel.Content = "stars : " + elements[0] + " review count : " + elements[1];
+
+            for (int i = 0; i < list.Count; i+=2)
+            {
+                if (i == 0)
+                {
+                    textBox.Text += "hours of operation\n";
+                    textBox.Text += "--------------------------------------------------------------------------\n";
+                }
+                elements = list[i].Split(';');
+                textBox.Text += elements[0] + " open : " + elements[1] + " close : " + elements[2] + "\n";
+            }
+
 
             sqlQuery = "SELECT * FROM reviewTable WHERE business_id LIKE '" + bID + "';";
             list.Clear();
             list = con.sqlSelect(sqlQuery, true);
 
+
+
             // cycle through reviews
             for (int i = 0; i < list.Count; i++)
             {
+                if (i == 0)
+                {
+                    textBox.Text += "reviews\n";
+                    textBox.Text += "--------------------------------------------------------------------------\n";
+                }
+
                 elements = list[i].Split(';');
                 sqlQuery = "SELECT name FROM userTable WHERE user_id LIKE '" + elements[1] + "';";
 
