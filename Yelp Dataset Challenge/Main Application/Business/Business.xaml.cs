@@ -132,6 +132,24 @@ namespace Yelp_Dataset_Challenge
                 textBox.Text += name[0] + " date : " + elements[3] + " likes : " + elements[4] + "\n";
                 textBox.Text += elements[2] + "\n\n";
             }
+
+            // checkins
+            sqlQuery = "SELECT checkin_info, checkin_amount FROM checkinTable WHERE business_id LIKE '" + bID + "';";
+            list.Clear();
+            list = con.sqlSelect(sqlQuery, true);
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (i == 0)
+                {
+                    textBox.Text += "checkin\n";
+                    textBox.Text += "--------------------------------------------------------------------------\n";
+                }
+
+                elements = list[i].Split(';');
+
+                textBox.Text += elements[0] + " : " + elements[1] + " times\n";
+            }
         }
     }
 }
